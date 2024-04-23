@@ -3,7 +3,7 @@
 # Commands to reproduce the errors
 
 1. ``git clone  https://github.com/SergioMorillas/edc_connector.git``
-2. ``cd edc_connector/docker``
+2. ``cd edc_connector``
 3. ``docker compose -f 'docker-compose.yml'``
 4. Create the dataplane
 ```sh
