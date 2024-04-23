@@ -1,0 +1,15 @@
+{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@type": "TransferRequestDto",
+  "connectorId": "provider",
+  "counterPartyAddress": "http://provider:8282/protocol",
+  "contractId": "bf287d47-7bcf-436a-ba92-c6b56d5e82ad",
+  "assetId": "assetId",
+  "protocol": "dataspace-protocol-http",
+  "dataDestination": {
+    "type": "HttpData",
+    "baseUrl": "http://localhost:4000/api/consumer/store"
+  }
+}

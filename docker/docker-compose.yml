@@ -1,0 +1,195 @@
+version: "2.3"
+services:
+  # Conector
+  company1:
+    container_name: provider # Nombre del contenedor
+    build:
+      context: ./ # Donde se encuentra la raíz
+    environment: 
+      EDC_CONNECTOR_NAME: provider # Nombre del conector
+      EDC_VAULT: /configuracion/conf/vault.properties # Ruta hasta el vault, es donde está el certificado
+      EDC_FS_CONFIG: /configuracion/conf/configuration.properties # Ruta hasta las propiedades de configuración
+      EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
+     # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
+    ports:
+      - "19191:19191"
+      - "19193:19193"
+      - "19194:19194"
+      - "19291:19291"
+      - "19192:19192"
+    volumes:
+      - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
+
+  company2:
+    container_name: consumer # Nombre del contenedor
+    build:
+      context: ./ # Donde se encuentra la raíz
+    environment: 
+      EDC_CONNECTOR_NAME: consumer # Nombre del conector
+      EDC_VAULT: /configuracion/conf2/vault.properties # Ruta hasta el vault, es donde está el certificado
+      EDC_FS_CONFIG: /configuracion/conf2/configuration.properties # Ruta hasta las propiedades de configuración
+      EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
+
+     # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
+    ports:
+      - "29191:29191"       
+      - "29193:29193"       
+      - "29194:29194"       
+      - "29291:29291"       
+      - "29192:29192"       
+    volumes:
+      - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
+
+  # Base de datos
+  postgres1:
+    container_name: postgres1 # Nombre del contenedor de postgres
+    image: postgres:13.4 # Imagen y version a utilizar
+    ports:
+      - "5432:5432" # Puerto para acceder desde la maquina anfitiron
+    environment:
+      POSTGRES_USER: postgres # Usuario para conectarse
+      POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
+    volumes:
+      - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
+
+  postgres2:
+    container_name: postgres2 # Nombre del contenedor de postgres
+    image: postgres:13.4 # Imagen y version a utilizar
+    ports:
+      - "5433:5432" # Puerto para acceder desde la maquina anfitiron
+    environment:
+      POSTGRES_USER: postgres # Usuario para conectarse
+      POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
+    volumes:
+      - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
+
+  logger:
+    build:
+      context: ../http-request-logger
+    ports:
+      - "4000:4000"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# provider   | Field "policyEngine" of type [interface org.eclipse.edc.policy.engine.spi.PolicyEngine] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "dispatcherRegistry" of type [interface org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "executorInstrumentation" of type [interface org.eclipse.edc.spi.system.ExecutorInstrumentation] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "eventRouter" of type [interface org.eclipse.edc.spi.event.EventRouter] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "ruleBindingRegistry" of type [interface org.eclipse.edc.policy.engine.spi.RuleBindingRegistry] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "registry" of type [interface org.eclipse.edc.spi.command.CommandHandlerRegistry] required by org.eclipse.edc.connector.contract.ContractNegotiationCommandExtension
+# provider   | Field "registry" of type [interface org.eclipse.edc.spi.command.CommandHandlerRegistry] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "executorInstrumentation" of type [interface org.eclipse.edc.spi.system.ExecutorInstrumentation] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "vault" of type [interface org.eclipse.edc.spi.security.Vault] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "eventRouter" of type [interface org.eclipse.edc.spi.event.EventRouter] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "dispatcherRegistry" of type [interface org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "typeTransformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.connector.ControlPlaneDefaultServicesExtension
+# provider   | Field "vault" of type [interface org.eclipse.edc.spi.security.Vault] required by org.eclipse.edc.api.auth.token.TokenBasedAuthenticationExtension
+# provider   | Field "validator" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.asset.AssetApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.asset.AssetApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.catalog.CatalogApiExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.connector.api.management.catalog.CatalogApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.catalog.CatalogApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.contractagreement.ContractAgreementApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.contractagreement.ContractAgreementApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.contractdefinition.ContractDefinitionApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.contractdefinition.ContractDefinitionApiExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.connector.api.management.contractdefinition.ContractDefinitionApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.contractnegotiation.ContractNegotiationApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.contractnegotiation.ContractNegotiationApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.policy.PolicyDefinitionApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.policy.PolicyDefinitionApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.transferprocess.TransferProcessApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.transferprocess.TransferProcessApiExtension
+# provider   | Field "participantIdMapper" of type [interface org.eclipse.edc.spi.agent.ParticipantIdMapper] required by org.eclipse.edc.connector.api.management.configuration.ManagementApiConfigurationExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.configuration.ManagementApiConfigurationExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.api.ApiCoreExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.api.ApiCoreExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.api.ApiCoreExtension
+# provider   | Field "participantIdMapper" of type [interface org.eclipse.edc.spi.agent.ParticipantIdMapper] required by org.eclipse.edc.protocol.dsp.api.configuration.DspApiConfigurationExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.api.configuration.DspApiConfigurationExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.negotiation.dispatcher.DspNegotiationHttpDispatcherExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.transferprocess.dispatcher.DspTransferProcessDispatcherExtension
+# provider   | Field "dispatcherRegistry" of type [interface org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry] required by org.eclipse.edc.protocol.dsp.DspHttpCoreExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.DspHttpCoreExtension
+# provider   | Field "httpClient" of type [interface org.eclipse.edc.spi.http.EdcHttpClient] required by org.eclipse.edc.protocol.dsp.DspHttpCoreExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.protocol.dsp.DspHttpCoreExtension
+# provider   | Field "policyEngine" of type [interface org.eclipse.edc.policy.engine.spi.PolicyEngine] required by org.eclipse.edc.protocol.dsp.DspHttpCoreExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.version.api.DspVersionApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.protocol.dsp.catalog.api.DspCatalogApiExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.protocol.dsp.catalog.api.DspCatalogApiExtension
+# provider   | Field "participantIdMapper" of type [interface org.eclipse.edc.spi.agent.ParticipantIdMapper] required by org.eclipse.edc.protocol.dsp.catalog.transform.DspCatalogTransformExtension
+# provider   | Field "registry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.catalog.transform.DspCatalogTransformExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.protocol.dsp.negotiation.api.DspNegotiationApiExtension
+# provider   | Field "registry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.negotiation.transform.DspNegotiationTransformExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.protocol.dsp.transferprocess.api.DspTransferProcessApiExtension
+# provider   | Field "registry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.protocol.dsp.transferprocess.transformer.DspTransferProcessTransformExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.connector.catalog.CatalogCoreExtension
+# provider   | Field "policyEngine" of type [interface org.eclipse.edc.policy.engine.spi.PolicyEngine] required by org.eclipse.edc.connector.contract.ContractNegotiationDefaultServicesExtension
+# provider   | Field "policyEngine" of type [interface org.eclipse.edc.policy.engine.spi.PolicyEngine] required by org.eclipse.edc.connector.transfer.TransferProcessDefaultServicesExtension
+# provider   | Field "participantAgentService" of type [interface org.eclipse.edc.spi.agent.ParticipantAgentService] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "dispatcher" of type [interface org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "commandHandlerRegistry" of type [interface org.eclipse.edc.spi.command.CommandHandlerRegistry] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "eventRouter" of type [interface org.eclipse.edc.spi.event.EventRouter] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "dataAddressValidator" of type [interface org.eclipse.edc.validator.spi.DataAddressValidatorRegistry] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "policyEngine" of type [interface org.eclipse.edc.policy.engine.spi.PolicyEngine] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+
+
+########################################################################################################################################################################################
+########################################################################################################################################################################################
+########################################################################################################################################################################################
+################################################################################### SIN DUPLICADOS #####################################################################################
+################################################################################### SIN DUPLICADOS #####################################################################################
+################################################################################### SIN DUPLICADOS #####################################################################################
+########################################################################################################################################################################################
+########################################################################################################################################################################################
+########################################################################################################################################################################################
+
+# provider   | Field "policyEngine" of type [interface org.eclipse.edc.policy.engine.spi.PolicyEngine] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "dispatcherRegistry" of type [interface org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "executorInstrumentation" of type [interface org.eclipse.edc.spi.system.ExecutorInstrumentation] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "eventRouter" of type [interface org.eclipse.edc.spi.event.EventRouter] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "ruleBindingRegistry" of type [interface org.eclipse.edc.policy.engine.spi.RuleBindingRegistry] required by org.eclipse.edc.connector.contract.ContractCoreExtension
+# provider   | Field "registry" of type [interface org.eclipse.edc.spi.command.CommandHandlerRegistry] required by org.eclipse.edc.connector.contract.ContractNegotiationCommandExtension
+# provider   | Field "vault" of type [interface org.eclipse.edc.spi.security.Vault] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "typeTransformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.transfer.TransferCoreExtension
+# provider   | Field "criterionOperatorRegistry" of type [interface org.eclipse.edc.spi.query.CriterionOperatorRegistry] required by org.eclipse.edc.connector.ControlPlaneDefaultServicesExtension
+# provider   | Field "validator" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.asset.AssetApiExtension
+# provider   | Field "transformerRegistry" of type [interface org.eclipse.edc.transform.spi.TypeTransformerRegistry] required by org.eclipse.edc.connector.api.management.asset.AssetApiExtension
+# provider   | Field "validatorRegistry" of type [interface org.eclipse.edc.validator.spi.JsonObjectValidatorRegistry] required by org.eclipse.edc.connector.api.management.catalog.CatalogApiExtension
+# provider   | Field "participantIdMapper" of type [interface org.eclipse.edc.spi.agent.ParticipantIdMapper] required by org.eclipse.edc.connector.api.management.configuration.ManagementApiConfigurationExtension
+# provider   | Field "httpClient" of type [interface org.eclipse.edc.spi.http.EdcHttpClient] required by org.eclipse.edc.protocol.dsp.DspHttpCoreExtension
+# provider   | Field "participantAgentService" of type [interface org.eclipse.edc.spi.agent.ParticipantAgentService] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "dispatcher" of type [interface org.eclipse.edc.spi.message.RemoteMessageDispatcherRegistry] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "commandHandlerRegistry" of type [interface org.eclipse.edc.spi.command.CommandHandlerRegistry] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
+# provider   | Field "dataAddressValidator" of type [interface org.eclipse.edc.validator.spi.DataAddressValidatorRegistry] required by org.eclipse.edc.connector.service.ControlPlaneServicesExtension
