@@ -4,7 +4,7 @@
 
 1. ``git clone  https://github.com/SergioMorillas/edc_connector.git``
 2. ``cd edc_connector``
-3. ``docker compose -f 'docker-compose.yml' up --build``
+3. ``docker compose -f 'docker/docker-compose.yml' up --build``
 5. Create the dataplane
 ```sh
 curl -H 'Content-Type: application/json' \
