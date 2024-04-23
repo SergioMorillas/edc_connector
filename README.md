@@ -4,8 +4,8 @@
 
 1. ``git clone  https://github.com/SergioMorillas/edc_connector.git``
 2. ``cd edc_connector``
-3. ``docker compose -f 'docker-compose.yml'``
-4. Create the dataplane
+3. ``docker compose -f 'docker-compose.yml' up --build``
+5. Create the dataplane
 ```sh
 curl -H 'Content-Type: application/json' \
      -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "http-pull-provider-dataplane",  "url": "http://provider:19192/control/transfer",  "allowedSourceTypes": [    "HttpData"  ],  "allowedDestTypes": [    "HttpProxy",    "HttpData"  ],  "properties": {    "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "http://provider:19291/public/"  }}' \
