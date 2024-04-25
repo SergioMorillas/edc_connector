@@ -1,0 +1,19 @@
+#!/bin/bash
+finalizado=false
+
+/home/sergio/prueba/crearArtefacto
+
+artefacto=$(/home/sergio/prueba/obtenerCatalogo)
+echo "ID del artefacto a negociar: $artefacto"
+
+contrato=$(/home/sergio/prueba/negociarContrato $artefacto)
+echo "ID del contrato: $contrato"
+while ! $finalizado; do 
+  estado=$(/home/sergio/prueba/comprobarEstado $contrato "estado")
+  if [ $estado = "FINALIZED" ]; then 
+    finalizado=true
+  fi
+done
+contratoExitoso=$(/home/sergio/prueba/comprobarEstado $contrato "id")
+
+/home/sergio/prueba/pushDatos $contratoExitoso

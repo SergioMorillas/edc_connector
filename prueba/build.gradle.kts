@@ -10,12 +10,12 @@ repositories { // El repositorio del que vamos a sacar todas las librerias
 val edcVersion = "0.6.1" // Seteamos la version de los paquetes que vamos a utilizar
 val edcGroup = "org.eclipse.edc" // Seteamos el grupo de Eclipse que vamos a utilizar
 dependencies {
-    implementation("${edcGroup}:data-plane-selector-api:${edcVersion}")             // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:data-plane-selector-core:${edcVersion}")            // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:data-plane-control-api:${edcVersion}")              // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:data-plane-public-api:${edcVersion}")               // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:data-plane-core:${edcVersion}")                     // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:data-plane-http:${edcVersion}")                     // Todas las extensiones basicas ==> Nucleo del control de transferencias
+    implementation("${edcGroup}:data-plane-selector-api:${edcVersion}")             // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-selector-core:${edcVersion}")            // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-control-api:${edcVersion}")              // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-public-api:${edcVersion}")               // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-core:${edcVersion}")                     // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-http:${edcVersion}")                     // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
     
     implementation("${edcGroup}:control-plane-core:${edcVersion}")                  // Todas las extensiones basicas ==> Nucleo del control de transferencias
     implementation("${edcGroup}:control-plane-api:${edcVersion}")                   // Todas las extensiones basicas ==> Nucleo del control de transferencias
