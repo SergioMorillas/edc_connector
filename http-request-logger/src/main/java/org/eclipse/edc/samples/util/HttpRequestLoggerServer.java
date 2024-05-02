@@ -50,7 +50,6 @@ public class HttpRequestLoggerServer {
             System.out.println(new String(exchange.getRequestBody().readAllBytes()));
             System.out.println("=============");
             System.out.println("Inicio sergio");
-            System.out.println("Remote address complete: " +exchange.toString());
             System.out.println("Remote address complete: " +exchange.getRemoteAddress().toString());
             System.out.println("Remote address hostname: " +exchange.getRemoteAddress().getHostName());
             System.out.println("Remote address host address: " +exchange.getRemoteAddress().getAddress().getHostAddress());
