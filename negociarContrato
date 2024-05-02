@@ -1,5 +1,0 @@
-#!/bin/bash
-
-curl -d "{  \"@context\": {    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"  },  \"@type\": \"ContractRequest\",  \"counterPartyAddress\": \"http://provider:19194/protocol\",  \"protocol\": \"dataspace-protocol-http\",  \"policy\": {    \"@context\": \"http://www.w3.org/ns/odrl.jsonld\",    \"@id\": \"$1\",    \"@type\": \"Offer\",    \"assigner\": \"provider\",    \"target\": \"assetId\"  }}" \
-  -X POST -H 'content-type: application/json' http://localhost:29193/management/v2/contractnegotiations \
--s | jq '."@id"'  | tr -d \" 

@@ -1,19 +1,23 @@
 #!/bin/bash
 finalizado=false
 
-/home/sergio/prueba/crearArtefacto
+/home/sergio/prueba/Scripts/crearArtefacto
 
-artefacto=$(/home/sergio/prueba/obtenerCatalogo)
+artefacto=$(/home/sergio/prueba/Scripts/obtenerCatalogo)
 echo "ID del artefacto a negociar: $artefacto"
 
-contrato=$(/home/sergio/prueba/negociarContrato $artefacto)
+contrato=$(/home/sergio/prueba/Scripts/negociarContrato $artefacto)
 echo "ID del contrato: $contrato"
 while ! $finalizado; do 
-  estado=$(/home/sergio/prueba/comprobarEstado $contrato "estado")
+  estado=$(/home/sergio/prueba/Scripts/comprobarEstado $contrato "estado")
   if [ $estado = "FINALIZED" ]; then 
     finalizado=true
   fi
 done
-contratoExitoso=$(/home/sergio/prueba/comprobarEstado $contrato "id")
+contratoExitoso=$(/home/sergio/prueba/Scripts/comprobarEstado $contrato "id")
 
-/home/sergio/prueba/pushDatos $contratoExitoso
+echo "El contract agreement id: $contratoExitoso"
+
+# Aquí puedo poner el pull o el push, según necesite
+# /home/sergio/prueba/Scripts/pushDatos $contratoExitoso
+/home/sergio/prueba/Scripts/transferenciaPull.sh $contratoExitoso

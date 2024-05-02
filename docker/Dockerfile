@@ -16,4 +16,4 @@ ENV JVM_ARGS=$JVM_ARGS
 RUN apt update; apt install -y vim tcpflow jq iproute2 tcpdump; echo "alias ll='ls -laiFh --color=always'">>~/.bashrc; rm -rf /var/cache/apt/archives /var/lib/apt/lists
 
 # Punto de entrada de la imagen, comando que iniciará el funcionamiento de la «máquina»
-ENTRYPOINT [ "sh", "-c", "exec java $JVM_ARGS -jar connector.jar"]
+ENTRYPOINT [ "sh", "-c", "exec java $JVM_ARGS -jar connector.jar"]  

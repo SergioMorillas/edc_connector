@@ -19,6 +19,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.util.Optional;
 
@@ -49,8 +50,14 @@ public class HttpRequestLoggerServer {
             System.out.println("Body:");
             System.out.println(new String(exchange.getRequestBody().readAllBytes()));
             System.out.println("=============");
+            System.out.println("Inicio sergio");
+            System.out.println("Remote address complete: " +exchange.toString());
+            System.out.println("Remote address complete: " +exchange.getRemoteAddress().toString());
+            System.out.println("Remote address hostname: " +exchange.getRemoteAddress().getHostName());
+            System.out.println("Remote address host address: " +exchange.getRemoteAddress().getAddress().getHostAddress());
+            System.out.println("Fin sergio");
+            System.out.println("=============");
             exchange.sendResponseHeaders(200, -1);
         }
     }
-
 }

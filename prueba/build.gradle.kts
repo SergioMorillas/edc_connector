@@ -22,7 +22,8 @@ dependencies {
     implementation("${edcGroup}:control-plane-api-client:${edcVersion}")            // Todas las extensiones basicas ==> API para clientes del control de transferencias
     implementation("${edcGroup}:management-api:${edcVersion}")                      // Todas las extensiones basicas ==> API de administración
     implementation("${edcGroup}:dsp:${edcVersion}")                                 // Todas las extensiones basicas ==> Implementación del DataSpaceProtocol
-    implementation("${edcGroup}:configuration-filesystem:${edcVersion}")            // Todas las extensiones basicas ==> Para mantener la configuración en local sin necesidad de Vault
+    implementation("${edcGroup}:configuration-filesystem:${edcVersion}")            // Todas las extensiones basicas ==> Para mantener la configuración en local
+    implementation("${edcGroup}:vault-filesystem:${edcVersion}")                    // Todas las extensiones basicas ==> Para mantener la configuración en local
     implementation("${edcGroup}:iam-mock:${edcVersion}")                            // Todas las extensiones basicas ==> Implementación del servicio de identificación
     implementation("${edcGroup}:http:${edcVersion}")                                // Todas las extensiones basicas ==> Control de comunicaciones HTTP
     implementation("${edcGroup}:transfer-data-plane:${edcVersion}")                 // Todas las extensiones basicas ==> Control de comunicaciones HTTP
@@ -40,7 +41,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.6.0")                              // Plugin estandar de postgres
 
     // Plugin propio
-    implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                     // Manejo del API de jakarta
+    //implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                     // Manejo del API de jakarta
 }
 
 application {
