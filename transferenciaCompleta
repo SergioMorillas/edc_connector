@@ -19,5 +19,5 @@ contratoExitoso=$(/home/sergio/prueba/Scripts/comprobarEstado $contrato "id")
 echo "El contract agreement id: $contratoExitoso"
 
 # Aquí puedo poner el pull o el push, según necesite
-# /home/sergio/prueba/Scripts/pushDatos $contratoExitoso
-/home/sergio/prueba/Scripts/transferenciaPull.sh $contratoExitoso
+/home/sergio/prueba/Scripts/pushDatos $contratoExitoso
+/home/sergio/prueba/Scripts/transferenciaPull $contratoExitoso

@@ -41,7 +41,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.6.0")                              // Plugin estandar de postgres
 
     // Plugin propio
-    //implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                     // Manejo del API de jakarta
+    // implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                         // Manejo del API de jakarta
 }
 
 application {
