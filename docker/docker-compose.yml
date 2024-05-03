@@ -68,3 +68,12 @@ services:
       context: ../http-request-logger
     ports:
       - "4000:4000"
+
+  hashicorp-vault:
+    container_name: vault-server
+    image: vault:1.13.3
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: token
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    ports:
+      - "8200:8200"

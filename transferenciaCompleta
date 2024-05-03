@@ -21,3 +21,6 @@ echo "El contract agreement id: $contratoExitoso"
 # Aquí puedo poner el pull o el push, según necesite
 /home/sergio/prueba/Scripts/pushDatos $contratoExitoso
 /home/sergio/prueba/Scripts/transferenciaPull $contratoExitoso
+
+# Consumer 172.024.000.006
+# Provider 172.024.000.003

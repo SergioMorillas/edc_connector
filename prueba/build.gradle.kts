@@ -15,7 +15,7 @@ dependencies {
     implementation("${edcGroup}:data-plane-control-api:${edcVersion}")              // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
     implementation("${edcGroup}:data-plane-public-api:${edcVersion}")               // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
     implementation("${edcGroup}:data-plane-core:${edcVersion}")                     // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    implementation("${edcGroup}:data-plane-http:${edcVersion}")                     // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-http:${edcVersion}")                     // Todas las extensions basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
     
     implementation("${edcGroup}:control-plane-core:${edcVersion}")                  // Todas las extensiones basicas ==> Nucleo del control de transferencias
     implementation("${edcGroup}:control-plane-api:${edcVersion}")                   // Todas las extensiones basicas ==> Nucleo del control de transferencias
@@ -23,7 +23,7 @@ dependencies {
     implementation("${edcGroup}:management-api:${edcVersion}")                      // Todas las extensiones basicas ==> API de administración
     implementation("${edcGroup}:dsp:${edcVersion}")                                 // Todas las extensiones basicas ==> Implementación del DataSpaceProtocol
     implementation("${edcGroup}:configuration-filesystem:${edcVersion}")            // Todas las extensiones basicas ==> Para mantener la configuración en local
-    implementation("${edcGroup}:vault-filesystem:${edcVersion}")                    // Todas las extensiones basicas ==> Para mantener la configuración en local
+    implementation("${edcGroup}:vault-hashicorp:${edcVersion}")                     // Todas las extensiones basicas ==> Para mantener la configuración en local
     implementation("${edcGroup}:iam-mock:${edcVersion}")                            // Todas las extensiones basicas ==> Implementación del servicio de identificación
     implementation("${edcGroup}:http:${edcVersion}")                                // Todas las extensiones basicas ==> Control de comunicaciones HTTP
     implementation("${edcGroup}:transfer-data-plane:${edcVersion}")                 // Todas las extensiones basicas ==> Control de comunicaciones HTTP
