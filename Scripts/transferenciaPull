@@ -12,6 +12,7 @@ curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
     \"contractId\": \"$1\",
     \"assetId\": \"assetId\",
     \"protocol\": \"dataspace-protocol-http\",
+    \"transferType\":\"PULL\",
     \"dataDestination\": {
       \"type\": \"HttpProxy\"
     }

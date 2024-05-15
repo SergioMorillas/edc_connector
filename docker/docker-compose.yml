@@ -4,10 +4,9 @@ services:
   company1:
     container_name: provider # Nombre del contenedor
     build:
-      context: ./ # Donde se encuentra la raíz
+      context: ../connecor # Donde se encuentra la raíz
     environment: 
       EDC_CONNECTOR_NAME: provider # Nombre del conector
-      EDC_VAULT: /configuracion/conf/vault.properties # Ruta hasta el vault, es donde está el certificado
       EDC_FS_CONFIG: /configuracion/conf/configuration.properties # Ruta hasta las propiedades de configuración
       EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
      # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
@@ -23,10 +22,9 @@ services:
   company2:
     container_name: consumer # Nombre del contenedor
     build: 
-      context: ./ # Donde se encuentra la raíz
+      context: ../connecor # Donde se encuentra la raíz
     environment: 
       EDC_CONNECTOR_NAME: consumer # Nombre del conector
-      EDC_VAULT: /configuracion/conf2/vault.properties # Ruta hasta el vault, es donde está el certificado
       EDC_FS_CONFIG: /configuracion/conf2/configuration.properties # Ruta hasta las propiedades de configuración
       EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
 
@@ -62,18 +60,12 @@ services:
       POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
     volumes:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
-
-  logger:
-    build:
-      context: ../http-request-logger
-    ports:
-      - "4000:4000"
-
+  # Vault para almacenar los certificados
   hashicorp-vault:
-    container_name: vault-server
-    image: vault:1.13.3
+    container_name: vault-server 
+    image: vault:1.13.3 # Imagen del vaul que vamos a utilizar
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: token
-      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+      VAULT_DEV_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200 # Dirección en la que escuchará el vaul para que los clientes se conecten
     ports:
-      - "8200:8200"
+      - "8200:8200" # Puerto tanto de la interfaz gráfica como del API

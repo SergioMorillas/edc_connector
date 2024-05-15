@@ -8,7 +8,7 @@ curl -H 'Content-Type: application/json' \
      -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "http-pull-consumer-dataplane",  "url": "http://consumer:29192/control/transfer",  "allowedSourceTypes": [    "HttpData"  ],  "allowedDestTypes": [    "HttpProxy",    "HttpData"  ],  "properties": {    "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "http://consumer:29291/public/"  }}' \
      -X POST "http://localhost:29193/management/v2/dataplanes" -s | jq
 
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "assetId",  "properties": {    "name": "product description",    "contenttype": "application/json"  },  "dataAddress": {    "type": "HttpData",    "name": "Test asset",    "baseUrl": "https://www.compraonline.alcampo.es/api/v5/products/search?limit=100&offset=0&term=pan",    "proxyPath": "true"  }}' \
+curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "assetId",  "properties": {    "name": "product description",    "contenttype": "application/json"  },  "dataAddress": {    "type": "HttpData",    "name": "Test asset",    "baseUrl": "https://www.compraonline.alcampo.es/api/v5/products/search?term=usb3.2",    "proxyPath": "true"  }}' \
   -H 'content-type: application/json' http://localhost:19193/management/v3/assets \
 -s | jq
 
