@@ -31,8 +31,9 @@ public class DownloadController {
         try {
             mapper = new ObjectMapper();
             jsonNode = mapper.readTree(body); //Aquí creamos los nodos del JSON
-            OutputStream fos = new FileOutputStream("./"+jsonNode.fieldNames().next()+".json"); 
-            fos.write(body.getBytes(StandardCharsets.UTF_8));
+            try (OutputStream fos = new FileOutputStream("./"+jsonNode.fieldNames().next()+".json")) {
+                fos.write(body.getBytes(StandardCharsets.UTF_8));
+            }
 
         } catch (JsonProcessingException e) {
             monitor.severe("El body no era un JSON con el formato correcto" + Arrays.toString(e.getStackTrace()));
