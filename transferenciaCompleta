@@ -1,5 +1,6 @@
 #!/bin/bash
 finalizado=false
+/home/sergio/prueba/Scripts/vault /home/sergio/prueba/configuracion/certificados/rsa_private.key /home/sergio/prueba/configuracion/certificados/cert.pem
 
 /home/sergio/prueba/Scripts/crearArtefacto
 

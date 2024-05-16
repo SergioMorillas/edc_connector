@@ -1,3 +1,0 @@
-#!/bin/bash
-
-curl --location --request GET 'http://localhost:19291/public/' --header "Authorization: $1 " | jq  '.' > fich.json
