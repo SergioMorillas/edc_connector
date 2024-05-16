@@ -1,24 +1,24 @@
 #!/bin/bash
 finalizado=false
-/home/sergio/prueba/Scripts/vault /home/sergio/prueba/configuracion/certificados/rsa_private.key /home/sergio/prueba/configuracion/certificados/cert.pem
+Scripts/vault docker/configuracion/certificados/rsa_private.key docker/configuracion/certificados/cert.pem
 
-/home/sergio/prueba/Scripts/crearArtefacto
+Scripts/crearArtefacto
 
-artefacto=$(/home/sergio/prueba/Scripts/obtenerCatalogo)
+artefacto=$(Scripts/obtenerCatalogo)
 echo "ID del artefacto a negociar: $artefacto"
 
-contrato=$(/home/sergio/prueba/Scripts/negociarContrato $artefacto)
+contrato=$(Scripts/negociarContrato $artefacto)
 echo "ID del contrato: $contrato"
 while ! $finalizado; do 
-  estado=$(/home/sergio/prueba/Scripts/comprobarEstado $contrato "estado")
+  estado=$(Scripts/comprobarEstado $contrato "estado")
   if [ $estado = "FINALIZED" ]; then 
     finalizado=true
   fi
 done
-contratoExitoso=$(/home/sergio/prueba/Scripts/comprobarEstado $contrato "id")
+contratoExitoso=$(Scripts/comprobarEstado $contrato "id")
 
 echo "El contract agreement id: $contratoExitoso"
 
 # Aquí puedo poner el pull o el push, según necesite
-# /home/sergio/prueba/Scripts/pushDatos $contratoExitoso
-/home/sergio/prueba/Scripts/transferenciaPull $contratoExitoso
+# Scripts/pushDatos $contratoExitoso
+Scripts/transferenciaPull $contratoExitoso
