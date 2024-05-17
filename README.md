@@ -732,7 +732,7 @@ curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
 │   ├── negociarContrato
 │   ├── obtenerCatalogo
 │   ├── transferenciaPull
-│   ├── transferenciaPush
+│   ├── transferenciaPush 
 │   └── vault
 └── transferenciaCompleta
 
