@@ -31,10 +31,8 @@
 # Requisitos
 
 Todas las pruebas estan realizadas sobre una maquina virtual con **Ubuntu 22.04.3 LTS**, que es donde he realizado todas las pruebas. Para montar tu conector necesitas varias dependencias en el sistema, estas son las versiones que yo he utilizado y se que funcionan correctamente:
-- **Gradle** versión 7.3.2
 - **Docker** versión 25.0.2
 - **Docker Compose** versión v2.24.5
-- **Java**: OpenJDK 17.0.10+7-Ubuntu-122.04.1
 
 # Creación del conector
 
@@ -43,14 +41,14 @@ Todas las pruebas estan realizadas sobre una maquina virtual con **Ubuntu 22.04.
 Toda la información para la creacion de este proyecto se encuentra en la siguiente [URL](https://docs.gradle.org/current/userguide/part1_gradle_init.html), pero se le han agregado pruebas y comprobaciones.
 
 1. Lo primero que debemos hacer es ejecutar el comando ``gradle`` para iniciar la sesión del gestor de proyectos.
-2. Ahora crearemos una carpeta y entraremos dentro, ``mkdir prueba; cd $_``
-3. Una vez estemos dentro de la carpeta que acabamos de crear debemos crear el proyecto como tal, ``gradle init --type java-application``, con el cual crearemos un proyecto de tipo aplicación java. Tendremos que ir añadiendo parámetros que ira pidiendo por consola, podemos darle a enter y simplemente utilizar los valores por defecto.
+2. Ahora crearemos una carpeta y entraremos dentro, ``mkdir connector; cd $_``
+3. Una vez estemos dentro de la carpeta que acabamos de crear debemos crear el proyecto como tal, ``gradle init --type java-application``, con el cual crearemos un proyecto de tipo aplicación java. Tendremos que ir añadiendo parámetros que ira pidiendo por consola, podemos darle a enter y simplemente utilizar los valores por defecto, excepto en la opción «Select build script DSL:», que seleccionaremos **kotlin**.
 4. A partir de este punto podemos utilizar el wrapper de gradle si nos es mas cómodo.
 
 
 ```bash
 gradle
-mkdir prueba; cd $_
+mkdir connector; cd $_
 gradle init --type java-application
 ```
 
@@ -68,26 +66,27 @@ plugins { // Aquí añadimos los plugins
 repositories { // El repositorio del que vamos a sacar todas las librerias
     mavenCentral()
 }
-val edcVersion = "0.6.1" // Seteamos la version de los paquetes que vamos a utilizar
+val edcVersion = "0.6.4" // Seteamos la version de los paquetes que vamos a utilizar
 val edcGroup = "org.eclipse.edc" // Seteamos el grupo de Eclipse que vamos a utilizar
 dependencies {
-    implementation("${edcGroup}:data-plane-selector-api:${edcVersion}")             // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    implementation("${edcGroup}:data-plane-selector-core:${edcVersion}")            // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    implementation("${edcGroup}:data-plane-control-api:${edcVersion}")              // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    implementation("${edcGroup}:data-plane-public-api:${edcVersion}")               // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    implementation("${edcGroup}:data-plane-core:${edcVersion}")                     // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    implementation("${edcGroup}:data-plane-http:${edcVersion}")                     // Todas las extensiones basicas ==> Extensiones para la transferencia de datos y el nucleo del conector
-    
-    implementation("${edcGroup}:control-plane-core:${edcVersion}")                  // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:control-plane-api:${edcVersion}")                   // Todas las extensiones basicas ==> Nucleo del control de transferencias
-    implementation("${edcGroup}:control-plane-api-client:${edcVersion}")            // Todas las extensiones basicas ==> API para clientes del control de transferencias
-    implementation("${edcGroup}:management-api:${edcVersion}")                      // Todas las extensiones basicas ==> API de administración
-    implementation("${edcGroup}:dsp:${edcVersion}")                                 // Todas las extensiones basicas ==> Implementación del DataSpaceProtocol
-    implementation("${edcGroup}:configuration-filesystem:${edcVersion}")            // Todas las extensiones basicas ==> Para mantener la configuración en local sin necesidad de Vault
-    implementation("${edcGroup}:iam-mock:${edcVersion}")                            // Todas las extensiones basicas ==> Implementación del servicio de identificación
-    implementation("${edcGroup}:http:${edcVersion}")                                // Todas las extensiones basicas ==> Control de comunicaciones HTTP
-    implementation("${edcGroup}:transfer-data-plane:${edcVersion}")                 // Todas las extensiones basicas ==> Control de comunicaciones HTTP
-    implementation("${edcGroup}:transfer-pull-http-receiver:${edcVersion}")         // Todas las extensiones basicas ==> Control de comunicaciones HTTP
+    implementation("${edcGroup}:data-plane-selector-api:${edcVersion}")             // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-selector-core:${edcVersion}")            // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-control-api:${edcVersion}")              // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-public-api:${edcVersion}")               // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-core:${edcVersion}")                     // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+    implementation("${edcGroup}:data-plane-http:${edcVersion}")                     // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
+
+    implementation("${edcGroup}:control-plane-core:${edcVersion}")                  // Todas las extensiones básicas ==> Nucleo del control de transferencias
+    implementation("${edcGroup}:control-plane-api:${edcVersion}")                   // Todas las extensiones básicas ==> Nucleo del control de transferencias
+    implementation("${edcGroup}:control-plane-api-client:${edcVersion}")            // Todas las extensiones básicas ==> API para clientes del control de transferencias
+    implementation("${edcGroup}:management-api:${edcVersion}")                      // Todas las extensiones básicas ==> API de administración
+    implementation("${edcGroup}:dsp:${edcVersion}")                                 // Todas las extensiones básicas ==> Implementación del DataSpaceProtocol
+    implementation("${edcGroup}:configuration-filesystem:${edcVersion}")            // Todas las extensiones básicas ==> Para mantener la configuración en local
+    implementation("${edcGroup}:vault-hashicorp:${edcVersion}")                     // Todas las extensiones básicas ==> Para mantener la configuración en local
+    implementation("${edcGroup}:iam-mock:${edcVersion}")                            // Todas las extensiones básicas ==> Implementación del servicio de identificación
+    implementation("${edcGroup}:http:${edcVersion}")                                // Todas las extensiones básicas ==> Control de comunicaciones HTTP
+    implementation("${edcGroup}:transfer-data-plane:${edcVersion}")                 // Todas las extensiones básicas ==> Control de comunicaciones HTTP
+    implementation("${edcGroup}:transfer-pull-http-receiver:${edcVersion}")         // Todas las extensiones básicas ==> Control de comunicaciones HTTP
 
     implementation("${edcGroup}:asset-index-sql:${edcVersion}")                     // Todas las extensiones de SQL -==> Indice de assets
     implementation("${edcGroup}:policy-definition-store-sql:${edcVersion}")         // Todas las extensiones de SQL -==> Definición de politicas
@@ -101,7 +100,7 @@ dependencies {
     implementation("org.postgresql:postgresql:42.6.0")                              // Plugin estandar de postgres
 
     // Plugin propio
-    // implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                     // Manejo del API de jakarta
+    implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                         // Manejo del API de jakarta
 }
 
 application {
@@ -117,7 +116,6 @@ tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> { // 
     mergeServiceFiles()
     archiveFileName.set("connector.jar")
 }
-
 ```
 
 ### Compilación
@@ -133,7 +131,7 @@ Para lanzar el conector crearemos a la misma altura que se encuentra ahora «con
 - Los ficheros de configuración del conector.
 - Los certificados del conector.
 - El script de creación de la base de datos
-- El «Dockerfile».
+- El «Dockerfile», el cual compilará de manera interna el código del conector.
 - Un docker compose para lanzar el conector junto a la base de datos de PostgreSQL.
 
 Se puede generar toda la estructura de carpetas con el siguiente comando:
@@ -143,7 +141,7 @@ Dentro de cada conf va la configuración de un conector diferente, por lo que au
 
 
 #### Ficheros de configuración
-Necesitaremos dos ficheros, el configuration.properties (Configuración) y el vault.properties (Logs), que se encuentran dentro de "docker/configuracion/conf".
+Necesitaremos dos ficheros, el configuration.properties (Configuración), que se encuentra dentro de "docker/configuracion/conf".
 
 La estructura de ficheros de la configuración se encuentra completa junto a la documentación, para que se pueda utilizar sin necesidad de crear todos los ficheros uno a uno.
 
@@ -152,12 +150,12 @@ En esta documentación solo mostraré los ficheros de configuración de uno de l
 ##### Configuración
 Este fichero se debería llamar configuration.properties, ya que es el nombre con el que lo referenciaremos, en caso de que quieras poner otro nombre deberas cambiar las referencias.
 
-1. El ID del participante, "su nombre" en el sistema federado          
-2. La dirección de callback                                            
-3. La contraseña del API                                               
-4. Los datos del KeyStore, ruta, alias y contraseña                    
-5. La URL de validación de los tokens                                  
-6. Los puertos que exposearemos y su endpoint                          
+1. El ID del participante, "su nombre" en el sistema federado
+2. La dirección de callback
+3. La contraseña del API
+4. Los datos del vault de hashicorp, ruta, alias y contraseña
+5. La URL de validación de los tokens
+6. Los puertos que exposearemos y su endpoint
 7. Las conexiones a los data sources de postgres (assets, politicas...)
 
 Hay que tener en cuenta que todas las rutas serán relativas al contenedor de docker, por lo que si has definido el volumen **«.configuracion:/configuracion»**, todas las rutas tendrán que surgir de **/configuracion**. Un ejemplo del fichero sería el siguiente:
@@ -165,17 +163,24 @@ Hay que tener en cuenta que todas las rutas serán relativas al contenedor de do
 ```sh
 # Id del participante, "nombre"
 edc.participant.id=consumer
-# Direccion de callback, a la cual enviarán los datos los otros conectores
+edc.connector.name=consumer
+
+# Direccion de callback 
 edc.dsp.callback.address=http://consumer:29194/protocol
-# Direccion del logger, utilizado para transferencias pull
-edc.receiver.http.endpoint=http://localhost:4000/receiver/urn:connector:consumer/callback
+# No lo se, estoy probando
+edc.receiver.http.endpoint=http://localhost:29191/api/logger
 
 # Contraseña del API, va en la cabecera de las peticiones
-edc.api.auth.key=password
-# El keystore con el certificado y la clave privada en formato JKS
-edc.keystore=/configuracion/cert/sergio-keystore.jks
-edc.keystore.password=sergio
-edc.keystore.alias=sergio
+edc.api.auth.key=password 
+
+edc.vault.hashicorp.url=http://vault-server:8200
+edc.vault.hashicorp.token=token
+edc.vault.hashicorp.timeout.seconds=30
+
+edc.public.key.alias=certificate
+edc.transfer.dataplane.token.signer.privatekey.alias=private_key
+edc.transfer.proxy.token.signer.privatekey.alias=private_key
+edc.transfer.proxy.token.verifier.publickey.alias=certificate
 
 # URL de validación de tokens
 edc.dataplane.token.validation.endpoint=http://localhost:29192/control/token
@@ -226,44 +231,38 @@ edc.datasource.default.password=edcpassword
 edc.datasource.default.url=jdbc:postgresql://postgres2:5432/postgres
 ```
 
-##### Logs
+# Certificados
 
-Al utilizar el sistema de «azurite» o «hashicorp vault» hay que añadir en ese fichero el usuario y la contraseña del conector en ese sistema, aquí al tratar con postgres no es necesario añadir nada de información (Que yo haya visto por ahora)
+Cada conector necesitará tener una clave privada y un certificado, ya que se utilizan tanto para registrarlos con el «Registration Service» como para el proxy en las peticiones pull.
 
-### Certificados
+Para crear la clave privada con su certificado podemos utilizar estos comandos, los cuales con el subj nos ahorraremos el tener que añadir datos de forma manual.
+```sh 
+openssl genrsa -out rsa_private.key 4096;
+openssl req -new -x509 -key private-key.pem -out cert.pem -days 365 -subj "/C=US/ST=New York/L=Rochester/O=Example Corp/OU=IT/CN=www.example.com"
+```
 
-Para los certificados lo mejor es crear una carpeta por cada conector que vayas a crear, por ejemplo «cert consumer», en este caso al ser solo para ilustrar el funcionamiento utilizaré una sola carpeta «cert» que contendrá los certificados y todos los conectores los utilizarán.
+## Añadir certificados al vault
 
-Para crear los certificados lo principal será crear la clave privada, para lo cual utilizaremos OpenSSL, con el siguiente comando ``openssl ecparam -name prime256v1 -genkey -noout -out private-key.pem``, una vez que tengamos la clave privada ya podemos generar la clave publica y el certificado, con los comandos: ``openssl ec -in private-key.pem -pubout -out public-key.pem``  y ``openssl req -new -x509 -key private-key.pem -subj '/CN=Some-State/C=AU/O=Internet Widgits Pty Ltd'  -out cert.pem -days 365``, en la generación del certificado utilizamos el parámetro **-subj** para poder crearlos de manera automática y desatendida. 
+Para añadir los certificados al vault hay dos opciones, o por la consola de comandos o por la interfaz gráfica, yo para hacerlo mas sencillo y automático he creado este pequeño script, el cual recibe como parámetros la ruta de la clave privada y el certificado (En este orden) y los introduce en el vault.
 
-**//TODO: Comprobar si los certificados creados con java keytool funcionan o si sigue utilizando bouncy castle de manera interna**
-
-Una vez que ya tengamos los certificados creados generaremos el JKS, para ello utilizaremos la herramienta del generador de certificados, el cual es un programa .jar al que le podemos pasar 3 parámetros: La ruta con los certificados, el alias y la contraseña, o podemos pasarle la ruta de un fichero que contenga varios datos en formato CSV, pero la herramienta muestra una ayuda si no introducimos bien los parámetros (El generador tambien se encuentra junto a esta documentación). 
-
-Una vez que ya sabemos como funciona la herramienta podemos utilizarla, desde la raíz de los ficheros de configuración ejecutaremos el comando ``java -jar generadorCertificados.jar <ruta hasta la carpeta con los certificados> <alias> <contraseña>``, y cuando acabe mostrará el mensaje de que se ha realizado con exito o ha habido algun error en la generación. 
-
-En este caso teniendo en cuenta la estructura de directorios actual el comando sería ``java -jar generadorCertificados.jar configuracion/cert sergio sergio`` 
+Es importante que el nombre del secreto (secret/«nombre del secreto») sea lo que nos interese guardar, ya que el nombre del contenido siempre debe ser content por como está codificado a nivel interno el conector.
 
 ```sh
-├── configuracion                   
-│   ├── cert                        
-│   │   ├── cert.pem                
-│   │   ├── private-key.pem         
-│   │   ├── public-key.pem          
-│   │   └── sergio-keystore.jks     
-│   ├── conf                        
-│   │   ├── configuration.properties
-│   │   └── vault.properties        
-│   ├── conf2                       
-│   │   ├── configuration.properties
-│   │   └── vault.properties        
-│   └── db                          
-│       └── init.sql                
-├── connector.jar                   
-├── docker-compose.yml              
-├── Dockerfile                      
-├── generadorCertificados.jar       
+#!/bin/bash
 
+# Añadimos en la maquina host la dirección en la que va a escuchar el vault
+export VAULT_ADDR="http://0.0.0.0:8200"; 
+
+# Nos loggeamos con el token que estemos utilizando
+vault login token 
+
+# Leemos el fichero de la clave privada y del certificado como parámetros
+private_key=$(cat $1)
+certificate=$(cat $2)
+
+# Insertamos en el vault los secretos
+vault kv put secret/private_key content="$private_key"
+vault kv put secret/certificate content="$certificate"
 ```
 
 ### Script de la base de datos
@@ -276,26 +275,30 @@ Ahora crearemos el dockerfile que nos lanzará el conector, dentro del propio fi
 El jar del conector deberá estar en la misma carpeta que tengamos el Dockerfile, para poder acceder a el con la ruta **./connector.jar**
 
 ```Dockerfile
+FROM gradle:8.7-jdk17 AS build
+
+WORKDIR /home/gradle/project
+COPY --chown=gradle:gradle . /home/gradle/project
+RUN gradle clean build
+
 # Seleccionamos la imagen que vamos a utilizar para nuestro conector, la opcion -buster es necesaria para tener acceso al gestor de paquetes apt
 FROM openjdk:17-slim-buster
 # Argumentos que le pasaremos a la JVM, por ejemplo una instancia del depurador
 ARG JVM_ARGS=""
 # Instalamos curl y borramos los registros de apt para ahorrar espacio
-RUN apt update \
-    && apt install -y curl 
+RUN apt update && apt install -y curl # rm -rf /var/cache/apt/archives /var/lib/apt/lists
+
     # && rm -rf /var/cache/apt/archives /var/lib/apt/lists # DESCOMENTAR 
 # Marcamos el directorio de trabajo como /app dentro del conector
 WORKDIR /app
 # Copiamos el jar del conector en el directorio de trabajo
-COPY ./connector.jar /app
+COPY --from=build /home/gradle/project/build/libs/connector.jar /app
 # Seteamos la variable de entorno JVM_ARGS con el valor del argumento creado antes
 ENV JVM_ARGS=$JVM_ARGS
 # Solo para pruebas, actualiza apt, instala diversos paquetes de depuración, crea el alias ll y borramos los registros apt
-RUN apt update; apt install -y vim tcpflow jq iproute2 tcpdump; echo "alias ll='ls -laiFh --color=always'">>~/.bashrc; rm -rf /var/cache/apt/archives /var/lib/apt/lists
-
+RUN apt update; apt install -y vim tcpflow jq iproute2 tcpdump; echo "alias ll='ls -laiFh --color=always'">>~/.bashrc
 # Punto de entrada de la imagen, comando que iniciará el funcionamiento de la «máquina»
-ENTRYPOINT [ "sh", "-c", "exec java $JVM_ARGS -jar connector.jar"]
-```
+ENTRYPOINT [ "sh", "-c", "exec java $JVM_ARGS -jar connector.jar"]  ```
 
 ### Docker-compose.yml
 
@@ -308,12 +311,11 @@ services:
   company1:
     container_name: provider # Nombre del contenedor
     build:
-      context: ./ # Donde se encuentra la raíz
+      context: ../connecor # Donde se encuentra la raíz
     environment: 
       EDC_CONNECTOR_NAME: provider # Nombre del conector
-      EDC_VAULT: /configuracion/conf/vault.properties # Ruta hasta el vault, es donde está el certificado
       EDC_FS_CONFIG: /configuracion/conf/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
+      EDC_IAM_DID_WEB_USE_HTTPS: true # Forzar el uso de https
      # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
       - "19191:19191"
@@ -326,13 +328,12 @@ services:
 
   company2:
     container_name: consumer # Nombre del contenedor
-    build:
-      context: ./ # Donde se encuentra la raíz
+    build: 
+      context: ../connecor # Donde se encuentra la raíz
     environment: 
       EDC_CONNECTOR_NAME: consumer # Nombre del conector
-      EDC_VAULT: /configuracion/conf2/vault.properties # Ruta hasta el vault, es donde está el certificado
       EDC_FS_CONFIG: /configuracion/conf2/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
+      EDC_IAM_DID_WEB_USE_HTTPS: true # Forzar el uso de https
 
      # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
@@ -366,13 +367,17 @@ services:
       POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
     volumes:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
-
-  logger:
-    build:
-      context: ../http-request-logger
+  # Vault para almacenar los certificados
+  hashicorp-vault:
+    container_name: vault-server 
+    image: vault:1.13.3 # Imagen del vaul que vamos a utilizar
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200 # Dirección en la que escuchará el vaul para que los clientes se conecten
     ports:
-      - "4000:4000"
+      - "8200:8200" # Puerto tanto de la interfaz gráfica como del API
 ```
+
 # Extensión propia
 
 Para poder evitar tener que pasar por un servidor externo cada vez que quiera pasar mis datos o tener que montar un servidor de fichero propio con ese fin he desarrollado una pequeña extension, la cual se encuentra en el mismo github que el conector (No se puede compilar desde VSCode porque no detecta las librerias externas), pero el codigo es el siguiente:
@@ -400,7 +405,7 @@ public class DownloadExtension implements ServiceExtension {
 }
 ```
 
-Controller: Es la clase que implementa la funcionalidad de la extensión, funciona en base a Jax-RS 
+Controller: Es la clase que implementa la funcionalidad de la extensión, funciona en base a Jax-RS y esta es la estructura.
 
 ```java
 package org.example;
@@ -433,23 +438,6 @@ public class DownloadController {
     @POST
     @Path("endpoint")
     public String endppoint(String body) {
-        ObjectMapper mapper;
-        JsonNode jsonNode = null;
-
-        try {
-            mapper = new ObjectMapper();
-            jsonNode = mapper.readTree(body);
-            OutputStream fos = new FileOutputStream("./"+jsonNode.fieldNames().next()+".json");
-            fos.write(body.getBytes(StandardCharsets.UTF_8));
-
-        } catch (JsonProcessingException e) {
-            monitor.severe("El body no era un JSON con el formato correcto" + Arrays.toString(e.getStackTrace()));
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
         return "{\"response\":\"download correctly\"}";
     }
 }
@@ -479,152 +467,145 @@ Una vez que ya has seguido todos los pasos y has creado todos los ficheros puede
 
 # Pruebas
 
-## Creación del dataplane
-
-Creamos en el proveedor un «dataplane», que sirve para que pueda servir datos.
-```sh
-curl -H 'Content-Type: application/json' \
-     -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "http-pull-provider-dataplane",  "url": "http://provider:19192/control/transfer",  "allowedSourceTypes": [    "HttpData"  ],  "allowedDestTypes": [    "HttpProxy",    "HttpData"  ],  "properties": {    "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "http://provider:19291/public/"  }}' \
-     -X POST "http://localhost:19193/management/v2/dataplanes" -s | jq
-```
-
-## Ofrecimiento de datos
-
-Ahora tenemos que crear los assets en el proveedor, y disponerlos para las transferencias, para ello tenemos que crear los 3 artefactos que muestro a continuación.
-
-### Creación del asset
-
-Para crear el asset tenemos que darle los datos propios del asset (Metadata almacenada en properties) y donde se encuentra el contenido de ese asset, en este caso es una URL externa que contiene la información de todo el pan vendido por el alcampo, pero puede ser de un sistema de almacenamiento propio.
-
-```sh
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "assetId",  "properties": {    "name": "product description",    "contenttype": "application/json"  },  "dataAddress": {    "type": "HttpData",    "name": "Test asset",    "baseUrl": "https://www.compraonline.alcampo.es/api/v5/products/search?limit=100&offset=0&term=pan",    "proxyPath": "true"  }}' \
-  -H 'content-type: application/json' http://localhost:19193/management/v3/assets \
--s | jq
-```
-
-### Creación de la politica
-
-Las politicas sirven para «definir» que conectores tienen acceso a ver el artefacto y quienes a descargarlo, por ejemplo, puedes crear una politica para que todas las personas de Europa lo puedan ver pero solo puedan descargarlo desde España. En este caso estamos creando una politica que permite ver y descargar por todo el mundo, sin ninguna restricción.
-
-```sh
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",    "odrl": "http://www.w3.org/ns/odrl/2/"  },  "@id": "aPolicy",  "policy": {    "@context": "http://www.w3.org/ns/odrl.jsonld",    "@type": "Set",    "permission": [],    "prohibition": [],    "obligation": []  }}' \
-  -H 'content-type: application/json' http://localhost:19193/management/v2/policydefinitions \
--s | jq
-
-```
-
-### Creación del contrato
-
-Ahora crearemos el contrato, que es lo que realmente van a ver los conectores, es un apartado que contiene el/los metadatos de el/los artefacto/s que quieras ofrecer junto a una politica, en caso de que te «gusten» esos metadatos y cumplas la politica podrás acceder al asset.
-
-```sh
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "1",  "accessPolicyId": "aPolicy",  "contractPolicyId": "aPolicy",  "assetsSelector": []}' \
-  -H 'content-type: application/json' http://localhost:19193/management/v2/contractdefinitions \
--s | jq
-```
-
-### Solicitar el catalogo
-
-Ahora tenemos que pedir desde el consumidor el catalogo del proveedor, que nos muestra la metadata de los artefactos que hemos visto antes, en este caso solo va a tener un artefacto, pero puede tener muchos.
-
-```sh
-curl -X POST "http://localhost:29193/management/v2/catalog/request" \
-  -H 'Content-Type: application/json' \
-  -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "counterPartyAddress": "http://provider:19194/protocol",  "protocol": "dataspace-protocol-http"}' \
--s | jq
-```
-
-### Negociar el contrato
-
-Ahora negociaremos con el proveedor el contrato para ver si cumplimos esas politicas previamente definidas, en este caso si, ya que es imposible no cumplirlas pues es una politica que permite todo.
-
-Para este apartado necesitamos el id del contrato que queremos negociar, es el apartado del catalogo identificado como: «dcat:dataset.odrl:hasPolicy.@id», nombrado aquí con: {{Id_descargar}}. Es una cadena en B64 con la siguiente estructura '\<contractId\>:\<assetId\>:\<Identificador de la negociación\>'
-
-```sh
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@type": "ContractRequest",  "counterPartyAddress": "http://provider:19194/protocol",  "protocol": "dataspace-protocol-http",  "policy": {    "@context": "http://www.w3.org/ns/odrl.jsonld",    "@id": "MQ==:YXNzZXRJZA==:YzQ1ZmI5NDMtNDFiMy00MGJjLWIwZDItMTY3YTc1ZWM3Yzdh",    "@type": "Offer",    "assigner": "provider",    "target": "assetId"  }}' \
-  -X POST -H 'content-type: application/json' http://localhost:29193/management/v2/contractnegotiations \
--s | jq
-```
-
-### Comprobar el estado de la negociación
-
-Una vez que ya hayamos negociado el contrato hay varios estados por los que puede pasar desde nuestro consumidor: INITIAL, REQUESTING, REQUESTED, AGREED, VERIFYING, VERIFIED, FINALIZED. O los mensajes de error, que no los trataré ahora. Para comprobar en cual de esos puntos del contrato estamos podemos utilizar el siguiente comando, el cual nos devolverá un JSON con el estado en el que nos encontramos, y una vez en finalized con el «contractAgreementId», que es lo que necesitaremos para la transferencia de datos.
-
-Para este apartado necesitamos el ID de la negociación que nos ha devuelto el apartado anterior, identificado como: «id», nombrado aqí con: {{Id}}
-
-```sh
-curl -X GET "http://localhost:29193/management/v2/contractnegotiations/bdf56e71-6d0e-40fa-998c-4b3d0c7ae604" \
-  --header 'Content-Type: application/json' \
--s | jq
-```
-
-### Pull
-
-Por ahora me da un error que no comprendo bien
-
-```sh
-curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
-  -H "Content-Type: application/json" \
-  -d '{   "@context": {     "@vocab": "https://w3id.org/edc/v0.0.1/ns/"   },   "@type": "TransferRequestDto",   "connectorId": "provider",   "counterPartyAddress": "http://provider:19194/protocol",   "contractId": "2994c548-3d8f-49e1-9fd0-ab5002c02e6f",   "assetId": "assetId",   "protocol": "dataspace-protocol-http",   "dataDestination": {     "type": "HttpProxy"   } } ' \
-  -s | jq
-
-
-```
-
-```sh
-curl http://localhost:29193/management/v2/transferprocesses/fcaff37b-96b8-4b76-9cfd-fa775c56fc18
-```
-
-```sh 
-curl --location --request GET 'http://localhost:19291/public/' --header 'Authorization: <auth code>'
-```
-### Push
-
-Para hacer este tipo de transferencia de datos necesitas un endpoint en el cual se van a almacenar los datos, en el cual escribirá directamente el proveedor, para nosotros ese endpoint ahora mismo pertenece a webhook, un servidor publico que recibe peticiones HTTP por nosotros. 
-
-Para esté apartado necesitamos 2 variables, una que será el Id que hemos visto antes con el resultado positivo de la negociación, y otro que será el endpoint sobre el cual se volcarán los datos, estan identificados de la siguiente manera: {{contractAgreementId}}, para el identificador correcto del contrato, y {{endpointURL}} para la URL sobre la cual realizaremos las peticiones de tipo HTTP
-
-```sh
-curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
-  -H "Content-Type: application/json" \
-  -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@type": "TransferRequestDto",  "connectorId": "provider",  "counterPartyAddress": "http://provider:19194/protocol",  "contractId": "a926663c-d6c8-4137-bf32-fa0f5607d836",  "assetId": "assetId",  "protocol": "dataspace-protocol-http",  "dataDestination": {    "type": "HttpData",    "baseUrl": "http://consumer:29191/api/endpoint"  }}' \
--s | jq
-```
-
-#### Mi script
-
-Para facilitar todas estas llamadas lo que he hecho ha sido crear una serie de scripts agrupados en un script final, los cuales son los siguientes, por orden
+Con el objetivo de facilitar esta transferencia he creado un pequeño script que realiza la transferencia completa, para hacerlo de forma mas modular y cómoda he utilizado un script para cada uno de los apartados anteriores, el script sería el siguiente:
 
 ```sh
 #!/bin/bash
+finalizado=false
 
+/«ruta_hasta_demas_scripts»/crearArtefacto
+
+artefacto=$(/«ruta_hasta_demas_scripts»/obtenerCatalogo)
+echo "ID del artefacto a negociar: $artefacto"
+
+contrato=$(/«ruta_hasta_demas_scripts»/negociarContrato $artefacto)
+echo "ID del contrato: $contrato"
+while ! $finalizado; do 
+  estado=$(/«ruta_hasta_demas_scripts»/comprobarEstado $contrato "estado")
+  if [ $estado = "FINALIZED" ]; then 
+    finalizado=true
+  fi
+done
+contratoExitoso=$(/«ruta_hasta_demas_scripts»/comprobarEstado $contrato "id")
+
+echo "El contract agreement id: $contratoExitoso"
+
+# Aquí puedo poner el pull o el push, según necesite
+# /«ruta_hasta_demas_scripts»/transferenciaPush $contratoExitoso
+/«ruta_hasta_demas_scripts»/transferenciaPull $contratoExitoso
+```
+
+### crearArtefacto
+Este script engloba la creación del dataplane, del asset, de la política y del contrato
+```sh
+#!/bin/bash
 curl -H 'Content-Type: application/json' \
-     -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "http-pull-provider-dataplane",  "url": "http://provider:19192/control/transfer",  "allowedSourceTypes": [    "HttpData"  ],  "allowedDestTypes": [    "HttpProxy",    "HttpData"  ],  "properties": {    "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "http://provider:19291/public/"  }}' \
+     -d '{
+      "@context": {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      "@id": "http-pull-provider-dataplane",
+      "url": "http://provider:19192/control/transfer",
+      "allowedSourceTypes": [
+        "HttpData"
+      ],
+      "allowedDestTypes": [
+        "HttpProxy",
+        "HttpData"
+      ],
+      "properties": {
+        "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "http://provider:19291/public/"
+      }
+    }' \
      -X POST "http://localhost:19193/management/v2/dataplanes" -s | jq
 
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "assetId",  "properties": {    "name": "product description",    "contenttype": "application/json"  },  "dataAddress": {    "type": "HttpData",    "name": "Test asset",    "baseUrl": "https://www.compraonline.alcampo.es/api/v5/products/search?limit=100&offset=0&term=pan",    "proxyPath": "true"  }}' \
+curl -H 'Content-Type: application/json' \
+     -d '{
+      "@context": {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      "@id": "http-pull-consumer-dataplane",
+      "url": "http://consumer:29192/control/transfer",
+      "allowedSourceTypes": [
+        "HttpData"
+      ],
+      "allowedDestTypes": [
+        "HttpProxy",
+        "HttpData"
+      ],
+      "properties": {
+        "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "http://consumer:29291/public/"
+      }
+    }' \
+     -X POST "http://localhost:29193/management/v2/dataplanes" -s | jq
+
+curl -d '{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@id": "assetId",
+  "properties": {
+    "name": "product description",
+    "contenttype": "application/json"
+  },
+  "dataAddress": {
+    "type": "HttpData",
+    "name": "Test asset",
+    "baseUrl": "https://www.compraonline.alcampo.es/api/v5/products/search?term=usb3.2",
+    "proxyPath": "true"
+  }
+}' \
   -H 'content-type: application/json' http://localhost:19193/management/v3/assets \
 -s | jq
 
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",    "odrl": "http://www.w3.org/ns/odrl/2/"  },  "@id": "aPolicy",  "policy": {    "@context": "http://www.w3.org/ns/odrl.jsonld",    "@type": "Set",    "permission": [],    "prohibition": [],    "obligation": []  }}' \
+curl -d '{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+    "odrl": "http://www.w3.org/ns/odrl/2/"
+  },
+  "@id": "aPolicy",
+  "policy": {
+    "@context": "http://www.w3.org/ns/odrl.jsonld",
+    "@type": "Set",
+    "permission": [],
+    "prohibition": [],
+    "obligation": []
+  }
+}' \
   -H 'content-type: application/json' http://localhost:19193/management/v2/policydefinitions \
 -s | jq
 
-curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "1",  "accessPolicyId": "aPolicy",  "contractPolicyId": "aPolicy",  "assetsSelector": []}' \
-  -H 'content-type: application/json' http://localhost:19193/management/v2/contractdefinitions \
+curl -d '{
+  "@context": {
+    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+  },
+  "@id": "1",
+  "accessPolicyId": "aPolicy",
+  "contractPolicyId": "aPolicy",
+  "assetsSelector": []
+}' \
+  -H 'content-type: application/json' http: //localhost:19193/management/v2/contractdefinitions \
 -s | jq
-
 ```
+
+### obtenerCatalogo
 
 ```sh
 #!/bin/bash
 
 curl -X POST "http://localhost:29193/management/v2/catalog/request" \
   -H 'Content-Type: application/json' \
-  -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "counterPartyAddress": "http://provider:19194/protocol",  "protocol": "dataspace-protocol-http"}' \
+  -d '{
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "counterPartyAddress": "http://provider:19194/protocol",
+    "protocol": "dataspace-protocol-http"
+  }' \
 -s | jq '."dcat:dataset"."odrl:hasPolicy"."@id"' | tr -d \"
-
 ```
+
+### negociarContrato
 
 ```sh
 #!/bin/bash
@@ -633,6 +614,10 @@ curl -d "{  \"@context\": {    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"  
   -X POST -H 'content-type: application/json' http://localhost:29193/management/v2/contractnegotiations \
 -s | jq '."@id"'  | tr -d \" 
 ```
+
+### comprobarEstado
+
+En este script comprobamos que el contrato ya este aceptado para poder hacer la transferencia
 
 ```sh
 #!/bin/bash
@@ -648,6 +633,34 @@ else
 fi
 ```
 
+### transferenciaPull
+
+```sh
+#!/bin/bash
+
+curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"@context\": {
+      \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"
+    },
+    \"@type\": \"TransferRequestDto\",
+    \"connectorId\": \"provider\",
+    \"counterPartyAddress\": \"http://provider:19194/protocol\",
+    \"contractId\": \"$1\",
+    \"assetId\": \"assetId\",
+    \"protocol\": \"dataspace-protocol-http\",
+    \"transferType\":\"PULL\",
+    \"dataDestination\": {
+      \"type\": \"HttpProxy\"
+    }
+  }" \
+  -s | jq
+
+```
+
+### transferenciaPush
+
 ```sh
 #!/bin/bash
 
@@ -655,27 +668,6 @@ curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
   -H "Content-Type: application/json" \
   -d "{  \"@context\": {    \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"  },  \"@type\": \"TransferRequestDto\",  \"connectorId\": \"provider\",  \"counterPartyAddress\": \"http://provider:19194/protocol\",  \"contractId\": \"$1\",  \"assetId\": \"assetId\",  \"protocol\": \"dataspace-protocol-http\",  \"dataDestination\": {    \"type\": \"HttpData\",    \"baseUrl\": \"http://consumer:29191/api/endpoint\"  }}" \
 -s | jq
-```
-
-```sh
-#!/bin/bash
-finalizado=false
-/home/sergio/prueba/crearArtefacto
-
-artefacto=$(/home/sergio/prueba/obtenerCatalogo)
-echo "ID del artefacto a negociar: $artefacto"
-
-contrato=$(/home/sergio/prueba/negociarContrato $artefacto)
-echo "ID del contrato: $contrato"
-while ! $finalizado; do 
-  estado=$(/home/sergio/prueba/comprobarEstado $contrato "estado")
-  if [ $estado = "FINALIZED" ]; then 
-    finalizado=true
-  fi
-done
-contratoExitoso=$(/home/sergio/prueba/comprobarEstado $contrato "id")
-
-/home/sergio/prueba/pushDatos $contratoExitoso
 ```
 
 # Estructura de directorios completa al finalizar 

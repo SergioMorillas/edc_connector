@@ -54,17 +54,13 @@ public class LoggerController {
             con.setRequestProperty("Content-Length", "" + authCode.getBytes().length);
             con.setRequestProperty("Authorization", authCode);
             // Aquí utilizo un DataInputStream para poder leer datos binarios
-
             try (DataInputStream rd = new DataInputStream(con.getInputStream());
                     OutputStream fos = new FileOutputStream("./" + id)) {
-
                 fos.write(rd.readAllBytes()); // Leemos la fuente de datos externa y la escribimos en el fichero interno
                 fos.flush();
-
             } catch (Exception ignored) {
                 monitor.severe("Excepción leyendo los datos o escribiendolos", ignored);
             }
-
         } catch (JsonProcessingException e) {
             monitor.severe("El body no era un JSON con el formato correcto");
         } catch (MalformedURLException e) {

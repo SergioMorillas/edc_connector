@@ -8,7 +8,7 @@ services:
     environment: 
       EDC_CONNECTOR_NAME: provider # Nombre del conector
       EDC_FS_CONFIG: /configuracion/conf/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
+      EDC_IAM_DID_WEB_USE_HTTPS: true # Forzar el uso de https
      # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
       - "19191:19191"
@@ -26,7 +26,7 @@ services:
     environment: 
       EDC_CONNECTOR_NAME: consumer # Nombre del conector
       EDC_FS_CONFIG: /configuracion/conf2/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_IAM_DID_WEB_USE_HTTPS: "true" # Forzar el uso de https
+      EDC_IAM_DID_WEB_USE_HTTPS: true # Forzar el uso de https
 
      # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
