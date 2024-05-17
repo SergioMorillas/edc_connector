@@ -673,125 +673,68 @@ curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
 # Estructura de directorios completa al finalizar 
 
 ```sh
-sergio@sergio:~/prueba$ tree
 .
-├── conector
-│   ├── app
-│   │   ├── build
-│   │   │   ├── classes
-│   │   │   │   └── java
-│   │   │   │       ├── main
-│   │   │   │       │   └── conector
-│   │   │   │       │       └── App.class
-│   │   │   │       └── test
-│   │   │   │           └── conector
-│   │   │   │               └── AppTest.class
-│   │   │   ├── distributions
-│   │   │   │   ├── app.tar
-│   │   │   │   └── app.zip
-│   │   │   ├── generated
-│   │   │   │   └── sources
-│   │   │   │       ├── annotationProcessor
-│   │   │   │       │   └── java
-│   │   │   │       │       ├── main
-│   │   │   │       │       └── test
-│   │   │   │       └── headers
-│   │   │   │           └── java
-│   │   │   │               ├── main
-│   │   │   │               └── test
-│   │   │   ├── libs
-│   │   │   │   └── app.jar
-│   │   │   ├── reports
-│   │   │   │   └── tests
-│   │   │   │       └── test
-│   │   │   │           ├── classes
-│   │   │   │           │   └── conector.AppTest.html
-│   │   │   │           ├── css
-│   │   │   │           │   ├── base-style.css
-│   │   │   │           │   └── style.css
-│   │   │   │           ├── index.html
-│   │   │   │           ├── js
-│   │   │   │           │   └── report.js
-│   │   │   │           └── packages
-│   │   │   │               └── conector.html
-│   │   │   ├── resources
-│   │   │   ├── scripts
-│   │   │   │   ├── app
-│   │   │   │   └── app.bat
-│   │   │   ├── test-results
-│   │   │   │   └── test
-│   │   │   │       ├── binary
-│   │   │   │       │   ├── output.bin
-│   │   │   │       │   ├── output.bin.idx
-│   │   │   │       │   └── results.bin
-│   │   │   │       └── TEST-conector.AppTest.xml
-│   │   │   └── tmp
-│   │   │       ├── compileJava
-│   │   │       │   └── previous-compilation-data.bin
-│   │   │       ├── compileTestJava
-│   │   │       │   └── previous-compilation-data.bin
-│   │   │       ├── jar
-│   │   │       │   └── MANIFEST.MF
-│   │   │       └── test
-│   │   ├── build.gradle
-│   │   └── src
-│   │       ├── main
-│   │       │   ├── java
-│   │       │   │   └── conector
-│   │       │   │       └── App.java
-│   │       │   └── resources
-│   │       └── test
-│   │           ├── java
-│   │           │   └── conector
-│   │           │       └── AppTest.java
-│   │           └── resources
-│   ├── build
-│   │   ├── distributions
-│   │   │   ├── conector-shadow.tar
-│   │   │   ├── conector-shadow.zip
-│   │   │   ├── conector.tar
-│   │   │   └── conector.zip
-│   │   ├── libs
-│   │   │   ├── conector.jar
-│   │   │   └── connector.jar
-│   │   ├── scripts
-│   │   │   ├── conector
-│   │   │   └── conector.bat
-│   │   ├── scriptsShadow
-│   │   │   ├── conector
-│   │   │   └── conector.bat
-│   │   └── tmp
-│   │       ├── jar
-│   │       │   └── MANIFEST.MF
-│   │       └── shadowJar
-│   │           └── MANIFEST.MF
+├── connecor
+│   ├── bin
+│   │   └── main
+│   │       ├── META-INF
+│   │       │   └── services
+│   │       │       └── org.eclipse.edc.spi.system.ServiceExtension
+│   │       ├── my
+│   │       │   └── logger
+│   │       │       ├── LoggerController.class
+│   │       │       └── LoggerExtension.class
+│   │       └── org
+│   │           └── example
+│   │               ├── DownloadController.class
+│   │               └── DownloadExtension.class
 │   ├── build.gradle.kts
+│   ├── Dockerfile
 │   ├── gradle
 │   │   └── wrapper
 │   │       ├── gradle-wrapper.jar
 │   │       └── gradle-wrapper.properties
 │   ├── gradlew
 │   ├── gradlew.bat
-│   └── settings.gradle
-└── docker
-    ├── configuracion
-    │   ├── cert
-    │   │   ├── cert.pem
-    │   │   ├── private-key.pem
-    │   │   ├── public-key.pem
-    │   │   └── sergio-keystore.jks
-    │   ├── conf
-    │   │   ├── configuration.properties
-    │   │   └── vault.properties
-    │   ├── conf2
-    │   │   ├── configuration.properties
-    │   │   └── vault.properties
-    │   └── db
-    │       └── init.sql
-    ├── connector.jar
-    ├── docker-compose.yml
-    ├── Dockerfile
-    ├── generadorCertificados.jar
-    └── resources
-        └── db-scripts
+│   ├── settings.gradle.kts
+│   └── src
+│       └── main
+│           ├── java
+│           │   ├── my
+│           │   │   └── logger
+│           │   │       ├── LoggerController.java
+│           │   │       └── LoggerExtension.java
+│           │   └── org
+│           │       └── example
+│           │           ├── DownloadController.java
+│           │           └── DownloadExtension.java
+│           └── resources
+│               └── META-INF
+│                   └── services
+│                       └── org.eclipse.edc.spi.system.ServiceExtension
+├── docker
+│   ├── configuracion
+│   │   ├── certificados
+│   │   │   ├── cert.pem
+│   │   │   └── rsa_private.key
+│   │   ├── conf
+│   │   │   └── configuration.properties
+│   │   ├── conf2
+│   │   │   └── configuration.properties
+│   │   └── db
+│   │       └── init.sql
+│   ├── connector.jar
+│   └── docker-compose.yml
+├── README.md
+├── Scripts
+│   ├── comprobarEstado
+│   ├── crearArtefacto
+│   ├── negociarContrato
+│   ├── obtenerCatalogo
+│   ├── transferenciaPull
+│   ├── transferenciaPush
+│   └── vault
+└── transferenciaCompleta
+
+28 directories, 33 files
 ```
