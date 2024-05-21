@@ -15,7 +15,7 @@ curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
     \"transferType\":\"PULL\",
     \"dataDestination\": {
       \"type\": \"HttpData\",
-      \"baseUrl\": \"http://consumer:29191/api/endpoint\"
+      \"baseUrl\": \"http://consumer:29191/api/push\"
     }
   }" \
 -s | jq

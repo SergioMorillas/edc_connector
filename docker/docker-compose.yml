@@ -18,6 +18,8 @@ services:
       - "19192:19192"
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
+    depends_on:
+      - hashicorp-vault
 
   company2:
     container_name: consumer # Nombre del contenedor
@@ -37,6 +39,8 @@ services:
       - "29192:29192"       
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
+    depends_on:
+      - hashicorp-vault
 
   # Base de datos
   postgres1:
@@ -49,6 +53,8 @@ services:
       POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
     volumes:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
+    depends_on:
+      - company1
 
   postgres2:
     container_name: postgres2 # Nombre del contenedor de postgres
@@ -60,6 +66,9 @@ services:
       POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
     volumes:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
+    depends_on:
+      - company2
+  
   # Vault para almacenar los certificados
   hashicorp-vault:
     container_name: vault-server 
