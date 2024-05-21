@@ -1,2 +1,2 @@
-org.example.DownloadExtension
-my.logger.LoggerExtension
+arsys.extension.download.push.PushExtension
+arsys.extension.download.pull.PullExtension

@@ -1,4 +1,4 @@
-package my.logger;
+package arsys.extension.download.pull;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,23 +15,27 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
+
+import javax.net.ssl.HttpsURLConnection;
 
 @Consumes({ MediaType.APPLICATION_JSON }) // La clase solo puede recibir peticiones de tipo application/json
 @Produces({ MediaType.APPLICATION_JSON }) // La clase solo puede devolver peticiones de tipo application/json
 @Path("/")
-public class LoggerController {
+public class PullController {
 
     private final Monitor monitor; // Es el logger, se lo pasa la clase Extension
 
-    public LoggerController(Monitor monitor) {
+    public PullController(Monitor monitor) {
         this.monitor = monitor;
     }
 
     @POST // Para obtener peticiones POST, tambien pueden ser GET, PUT, PATCH...
-    @Path("logger")
+    @Path("pull")
     public String endppoint(String body) {// Creamos un endpoint que recibe un JSON como cadena de texto
         ObjectMapper mapper;
         JsonNode jsonNode;
+        HttpURLConnection con = null;
         try {
             mapper = new ObjectMapper();
             jsonNode = mapper.readTree(body);// Aquí creamos los nodos del JSON
@@ -46,12 +50,19 @@ public class LoggerController {
             // Accedemos al endpoint que nos ha proporcionado el proveedor en el JSON con el
             // authcode como cabecera de la petición, aceptando tanto input como output
             URL url = new URL(endpoint);
-            System.out.println(url);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setDoOutput(true);
+        
+            
+            Object connection = url.openConnection(); //Abrimos la conexion en un objeto
+            if (connection instanceof HttpsURLConnection) { // Si es una instancia de https lo utilizamos como tal
+                con = (HttpsURLConnection) connection;
+            } else { // En caso contrario lo tratamos como http
+                con = (HttpURLConnection) connection;
+            }
+            con = (HttpURLConnection) url.openConnection(); //close
+
             con.setDoInput(true);
             con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Length", "" + authCode.getBytes().length);
+            con.setRequestProperty("Content-Length", authCode.getBytes().length+""); // Funciona sin este header, pero hace que funcione mas rápido
             con.setRequestProperty("Authorization", authCode);
             // Aquí utilizo un DataInputStream para poder leer datos binarios
             try (DataInputStream rd = new DataInputStream(con.getInputStream());
@@ -67,6 +78,8 @@ public class LoggerController {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally{
+            if (con!=null) con.disconnect();
         }
         // Si ha llegado hasta aquí y no ha saltado excepción devuelvo que ha sido
         // correcto

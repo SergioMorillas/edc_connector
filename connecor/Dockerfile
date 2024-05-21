@@ -7,7 +7,7 @@ RUN gradle clean build
 # Seleccionamos la imagen que vamos a utilizar para nuestro conector, la opcion -buster es necesaria para tener acceso al gestor de paquetes apt
 FROM openjdk:17-slim-buster
 # Argumentos que le pasaremos a la JVM, por ejemplo una instancia del depurador
-ARG JVM_ARGS=""
+ARG JVM_ARGS="-Xms8192m"
 # Instalamos curl y borramos los registros de apt para ahorrar espacio
 RUN apt update && apt install -y curl # rm -rf /var/cache/apt/archives /var/lib/apt/lists
 

@@ -1,4 +1,4 @@
-package org.example;
+package arsys.extension.download.push;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ws.rs.*;
@@ -7,24 +7,23 @@ import org.eclipse.edc.spi.monitor.Monitor;
 import java.io.*;
 import java.util.Arrays;
 
-
-@Consumes({MediaType.WILDCARD}) // La clase solo puede recibir peticiones de tipo application/json
-@Produces({MediaType.WILDCARD}) // La clase solo puede devolver peticiones de tipo application/json
+@Consumes({ MediaType.WILDCARD }) // La clase solo puede recibir peticiones de tipo application/json
+@Produces({ MediaType.WILDCARD }) // La clase solo puede devolver peticiones de tipo application/json
 @Path("/")
-public class DownloadController {
+public class PushController {
 
-    private final Monitor monitor; // Es el logger, se lo pasa la clase Extension 
+    private final Monitor monitor; // Es el logger, se lo pasa la clase Extension
 
-    public DownloadController(Monitor monitor) {
+    public PushController(Monitor monitor) {
         this.monitor = monitor;
     }
 
     @POST
-    @Path("endpoint")
+    @Path("push")
     public String endppoint(InputStream body) { // Creamos un endpoint que recibe un JSON como cadena de texto
 
         try {
-            try (OutputStream fos = new FileOutputStream("./"+body.hashCode())) {
+            try (OutputStream fos = new FileOutputStream("./" + body.hashCode())) {
                 fos.write(body.readAllBytes());
             }
         } catch (JsonProcessingException e) {
@@ -35,6 +34,10 @@ public class DownloadController {
             throw new RuntimeException(e);
         }
 
-        return "{\"response\":\"download correctly\"}";
+        return """
+                {
+                    "response":"download correctly"
+                }
+                                """;
     }
 }
