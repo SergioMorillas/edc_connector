@@ -11,11 +11,13 @@ import jakarta.ws.rs.core.MediaType;
 
 import org.eclipse.edc.spi.monitor.Monitor;
 
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -40,37 +42,36 @@ public class PullController {
             mapper = new ObjectMapper();
             jsonNode = mapper.readTree(body);// Aquí creamos los nodos del JSON
             // Ahora le quitamos las comillas a los campos del JSON que queremos utilizar,
-            // ya que sino
-            // hiciesemos esto los valores con las comillas no serían utilies
+            // ya que si no hiciesemos esto los valores con las comillas no serían utilies
             String endpoint = jsonNode.get("endpoint").toString().replaceAll("\"", "");
             String authCode = jsonNode.get("authCode").toString().replaceAll("\"", "");
             String id = jsonNode.get("id").toString().replaceAll("\"", "");
-            // Utilizamos el monitos para mostrar mensajes informativos
+            
             monitor.info("El valor del auth code es: " + authCode);
             // Accedemos al endpoint que nos ha proporcionado el proveedor en el JSON con el
-            // authcode como cabecera de la petición, aceptando tanto input como output
+            // authcode como cabecera de la petición, aceptando input
             URL url = new URL(endpoint);
         
             
             Object connection = url.openConnection(); //Abrimos la conexion en un objeto
-            if (connection instanceof HttpsURLConnection) { // Si es una instancia de https lo utilizamos como tal
-                con = (HttpsURLConnection) connection;
-            } else { // En caso contrario lo tratamos como http
-                con = (HttpURLConnection) connection;
-            }
-            con = (HttpURLConnection) url.openConnection(); //close
+            con = (connection instanceof HttpsURLConnection) ? (HttpsURLConnection) connection : (HttpURLConnection) connection;// Si es una instancia de https lo utilizamos como tal, en otro caso como http
 
-            con.setDoInput(true);
+            con.setDoInput(true); // Activamos la opción del input
             con.setRequestMethod("GET");
             con.setRequestProperty("Content-Length", authCode.getBytes().length+""); // Funciona sin este header, pero hace que funcione mas rápido
             con.setRequestProperty("Authorization", authCode);
+            con.setRequestProperty("x-api-key", "password");
+            
             // Aquí utilizo un DataInputStream para poder leer datos binarios
             try (DataInputStream rd = new DataInputStream(con.getInputStream());
                     OutputStream fos = new FileOutputStream("./" + id)) {
+                long empiezaTransferencia = System.currentTimeMillis();
                 fos.write(rd.readAllBytes()); // Leemos la fuente de datos externa y la escribimos en el fichero interno
                 fos.flush();
+
+                monitor.info("Transferencia terminada, ha tardado: " + (System.currentTimeMillis() - empiezaTransferencia ) + " ms");
             } catch (Exception ignored) {
-                monitor.severe("Excepción leyendo los datos o escribiendolos", ignored);
+                monitor.severe("Excepción leyendo o escribiendo los datos", ignored);
             }
         } catch (JsonProcessingException e) {
             monitor.severe("El body no era un JSON con el formato correcto");
@@ -79,7 +80,7 @@ public class PullController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally{
-            if (con!=null) con.disconnect();
+            if (con!=null) con.disconnect(); // Cerramos la conexión
         }
         // Si ha llegado hasta aquí y no ha saltado excepción devuelvo que ha sido
         // correcto

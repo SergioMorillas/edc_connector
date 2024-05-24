@@ -7,8 +7,13 @@ plugins { // Aquí añadimos los plugins
 repositories { // El repositorio del que vamos a sacar todas las librerias
     mavenCentral()
 }
-val edcVersion = "0.6.4" // Seteamos la version de los paquetes que vamos a utilizar
-val edcGroup = "org.eclipse.edc" // Seteamos el grupo de Eclipse que vamos a utilizar
+val edcGroup = "org.eclipse.edc"        // Seteamos el grupo de Eclipse que vamos a utilizar
+val edcVersion = "0.6.4"                // Seteamos la version de los paquetes de Eclipse que vamos a utilizar
+val postgresGroup = "org.postgresql"    // Seteamos el grupo de postgres que vamos a utilizar
+val postgresVersion = "42.6.0"          // Seteamos la version de los paquetes de postgres que vamos a utilizar
+val jakartaGroup ="jakarta.ws.rs"       // Seteamos el grupo de jakarta que vamos a utilizar
+val jakartaVersion ="3.1.0"             // Seteamos la version de los paquetes de jakarta que vamos a utilizar
+
 dependencies {
     implementation("${edcGroup}:data-plane-selector-api:${edcVersion}")             // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
     implementation("${edcGroup}:data-plane-selector-core:${edcVersion}")            // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
@@ -38,10 +43,10 @@ dependencies {
     implementation("${edcGroup}:transaction-local:${edcVersion}")                   // Todas las extensiones de SQL -==> Transacciones locales
     implementation("${edcGroup}:transaction-datasource-spi:${edcVersion}")          // Todas las extensiones de SQL -==> Transacciones locales
     implementation("${edcGroup}:control-plane-sql:${edcVersion}")                   // Todas las extensiones de SQL -==> Transacciones locales
-    implementation("org.postgresql:postgresql:42.6.0")                              // Plugin estandar de postgres
+    implementation("${postgresGroup}:postgresql:${postgresVersion}")                // Plugin estandar de postgres
 
     // Plugin propio
-    implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                         // Manejo del API de jakarta
+    implementation("${jakartaGroup}:jakarta.ws.rs-api:${jakartaVersion}")           // Manejo del API de jakarta
 }
 
 application {
