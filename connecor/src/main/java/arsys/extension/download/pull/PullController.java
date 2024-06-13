@@ -15,7 +15,6 @@ import java.io.DataInputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -37,13 +36,17 @@ public class PullController {
     public String endppoint(String body) {// Creamos un endpoint que recibe un JSON como cadena de texto
         ObjectMapper mapper;
         JsonNode jsonNode;
-        HttpURLConnection con = null;
+        HttpsURLConnection con = null;
+        long empiezaTransferencia=0, finalizaTransferencia=0;
+        monitor.info("Hemos entrado en el metodo Pull");
         try {
+            empiezaTransferencia = System.currentTimeMillis();
             mapper = new ObjectMapper();
             jsonNode = mapper.readTree(body);// Aquí creamos los nodos del JSON
             // Ahora le quitamos las comillas a los campos del JSON que queremos utilizar,
             // ya que si no hiciesemos esto los valores con las comillas no serían utilies
             String endpoint = jsonNode.get("endpoint").toString().replaceAll("\"", "");
+            monitor.info("Apuntamos al endpoint: " + endpoint);
             String authCode = jsonNode.get("authCode").toString().replaceAll("\"", "");
             String id = jsonNode.get("id").toString().replaceAll("\"", "");
             
@@ -52,9 +55,7 @@ public class PullController {
             // authcode como cabecera de la petición, aceptando input
             URL url = new URL(endpoint);
         
-            
-            Object connection = url.openConnection(); //Abrimos la conexion en un objeto
-            con = (connection instanceof HttpsURLConnection) ? (HttpsURLConnection) connection : (HttpURLConnection) connection;// Si es una instancia de https lo utilizamos como tal, en otro caso como http
+            con= (HttpsURLConnection) url.openConnection(); //Abrimos la conexion en un objeto
 
             con.setDoInput(true); // Activamos la opción del input
             con.setRequestMethod("GET");
@@ -65,11 +66,9 @@ public class PullController {
             // Aquí utilizo un DataInputStream para poder leer datos binarios
             try (DataInputStream rd = new DataInputStream(con.getInputStream());
                     OutputStream fos = new FileOutputStream("./" + id)) {
-                long empiezaTransferencia = System.currentTimeMillis();
                 fos.write(rd.readAllBytes()); // Leemos la fuente de datos externa y la escribimos en el fichero interno
                 fos.flush();
-
-                monitor.info("Transferencia terminada, ha tardado: " + (System.currentTimeMillis() - empiezaTransferencia ) + " ms");
+                finalizaTransferencia = System.currentTimeMillis();
             } catch (Exception ignored) {
                 monitor.severe("Excepción leyendo o escribiendo los datos", ignored);
             }
@@ -84,6 +83,6 @@ public class PullController {
         }
         // Si ha llegado hasta aquí y no ha saltado excepción devuelvo que ha sido
         // correcto
-        return "{\"respuesta\":\"descarga correcta\"}";
+        return "{\"Tiempo de transferencia\":\" "+(finalizaTransferencia - empiezaTransferencia )+" \" ms\"\"}";
     }
 }

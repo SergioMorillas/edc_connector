@@ -1,6 +1,13 @@
 #!/bin/bash
 
-curl -X POST "http://localhost:29193/management/v2/catalog/request" \
+curl -X POST "https://sergio.arlabdevelopments.com:29193/management/v2/catalog/request" \
+  --header 'x-api-key: password' \
   -H 'Content-Type: application/json' \
-  -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "counterPartyAddress": "http://provider:19194/protocol",  "protocol": "dataspace-protocol-http"}' \
+  -d '{
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "counterPartyAddress": "https://sergio.arlabdevelopments.com:19194/protocol",
+    "protocol": "dataspace-protocol-http"
+    }' \
 -s | jq '."dcat:dataset"."odrl:hasPolicy"."@id"' | tr -d \"

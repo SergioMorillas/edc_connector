@@ -1,0 +1,21 @@
+#!/bin/bash
+
+curl -X POST "https://sergio.arlabdevelopments.com:29193/management/v2/transferprocesses" \
+  --header 'x-api-key: password' \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"@context\": {
+      \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"
+    },
+    \"@type\": \"TransferRequestDto\",
+    \"connectorId\": \"provider\",
+    \"counterPartyAddress\": \"https://sergio.arlabdevelopments.com:19194/protocol\",
+    \"contractId\": \"af0df01a-54fc-454c-b381-83ae769c3d72\",
+    \"assetId\": \"assetId\",
+    \"protocol\": \"dataspace-protocol-http\",
+    \"transferType\":\"PULL\",
+    \"dataDestination\": {
+      \"type\": \"HttpProxy\"
+    }
+  }" \
+  -s | jq

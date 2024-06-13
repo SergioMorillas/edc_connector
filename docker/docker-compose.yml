@@ -6,10 +6,9 @@ services:
     build:
       context: ../connecor # Donde se encuentra la raíz
     environment: 
-      EDC_CONNECTOR_NAME: provider # Nombre del conector
       EDC_FS_CONFIG: /configuracion/conf/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_IAM_DID_WEB_USE_HTTPS: true # Forzar el uso de https
-     # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://sergio.arlabdevelopments.com:19192/control/token
+    # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
       - "19191:19191"
       - "19193:19193"
@@ -18,29 +17,23 @@ services:
       - "19192:19192"
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
-    depends_on:
-      - hashicorp-vault
 
   company2:
     container_name: consumer # Nombre del contenedor
     build: 
       context: ../connecor # Donde se encuentra la raíz
     environment: 
-      EDC_CONNECTOR_NAME: consumer # Nombre del conector
       EDC_FS_CONFIG: /configuracion/conf2/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_IAM_DID_WEB_USE_HTTPS: true # Forzar el uso de https
-
-     # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://sergio.arlabdevelopments.com:19192/control/token
+    # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
-      - "29191:29191"       
-      - "29193:29193"       
-      - "29194:29194"       
-      - "29291:29291"       
-      - "29192:29192"       
+      - "29191:29191"
+      - "29193:29193"
+      - "29194:29194"
+      - "29291:29291"
+      - "29192:29192"
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
-    depends_on:
-      - hashicorp-vault
 
   # Base de datos
   postgres1:
@@ -68,13 +61,30 @@ services:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
     depends_on:
       - company2
-  
+
   # Vault para almacenar los certificados
   hashicorp-vault:
     container_name: vault-server 
     image: vault:1.13.3 # Imagen del vaul que vamos a utilizar
     environment:
       VAULT_DEV_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
-      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200 # Dirección en la que escuchará el vaul para que los clientes se conecten
+      VAULT_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
+      VIRTUAL_HOST: vault-server.com
+      VAULT_SKIP_VERIFY: true
     ports:
       - "8200:8200" # Puerto tanto de la interfaz gráfica como del API
+    volumes:
+      - ./configuracion:/configuracion
+    entrypoint: vault server -config=/configuracion/vault/vault.hcl 
+
+  keycloack:
+    container_name: OAuth_server
+    image: quay.io/keycloak/keycloak:24.0.5
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./configuracion:/configuracion
+    command: start --verbose --https-port=8443 --hostname="sergio.arlabdevelopments.com" --https-certificate-file=/configuracion/certificados/fullchain.pem --https-certificate-key-file=/configuracion/certificados/privkey1.pem
+    ports:
+      - "8443:8443"

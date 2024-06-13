@@ -738,3 +738,70 @@ curl -X POST "http://localhost:29193/management/v2/transferprocesses" \
 
 28 directories, 33 files
 ```
+
+# Configuración del vault
+
+Para crear los secretos primeros deberemos realizar el unseal. 
+Lo primero que deberemos hacer será ejecutar el comando ``vault operator init``, el cual nos devolverá 5 claves, de las que neesitamos 3 para hacer en unseal
+
+![Unseal key](image.png)
+
+Una vez ya las tengamos tenemos que ehecutar el comando ``vault operator unseal`` 3 veces con las 3 claves disponibles, una vez realizado este paso ya podremos utilizar nuestro vault de forma normal 
+
+Una vez hecho ese paso procederemos a crear el secreto, para lo cuál utilizaremos el siguiente comando:
+
+```sh
+curl -k 'https://localhost:8200/v1/sys/mounts/secret' \
+-X POST \
+-H 'Accept: */*' \
+-H 'X-Vault-Token: hvs.ogeIWxsqRVdxZqKRwmkf8tHr' \
+-H 'content-type: application/json; charset=utf-8' \
+-H 'Referer: https://localhost:8200/ui/vault/settings/mount-secret-backend' \
+-H 'Priority: u=1' \
+-H 'TE: trailers' \
+--data-raw '{"path":"secret","type":"kv","generate_signing_key":true,"config":{"id":"secret"},"options":{"version":2},"id":"secret"}'
+```
+
+## Fichero de configuración
+
+Deberá tener un fichero de configuración llamado vault.hcl con el siguiente contenido 
+
+```
+storage "file" {
+  path = "/mnt/vault/data"
+}
+listener "tcp" {
+  address     = "0.0.0.0:8200"
+  tls_cert_file = "/configuracion/vault/fullchain.pem"
+  tls_key_file  = "/configuracion/vault/privkey1.pem"
+}
+
+api_addr = "https://127.0.0.1:8200"
+cluster_addr = "https://127.0.0.1:8201"
+ui = true
+disable_mlock = true
+```
+
+Y este contenido en el docker compose
+
+```yml
+# Vault para almacenar los certificados
+hashicorp-vault:
+  container_name: vault-server 
+  image: vault:1.13.3 # Imagen del vaul que vamos a utilizar
+  environment:
+    VAULT_DEV_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
+    VAULT_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
+    # VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200 # Dirección en la que escuchará el vaul para que los clientes se conecten
+    VIRTUAL_HOST: vault-server.com
+    VAULT_SKIP_VERIFY: true
+  ports:
+    - "8200:8200" # Puerto tanto de la interfaz gráfica como del API
+  volumes:
+    - ./configuracion:/configuracion
+  entrypoint: vault server -config=/configuracion/vault/vault.hcl 
+```
+
+# Certificado
+
+Para generar el certificado he utilizado certbot para crear un certificado de lets encrypt, que lo he validado contra el DNS de la maquina anfitrion y he abierto el puerto para que acceda, utilizando este comando ``sudo certbot certonly --standalone``, al ejecutarlo te preguntara por el nombre de dominio, y al introducirlo te creará el certificado

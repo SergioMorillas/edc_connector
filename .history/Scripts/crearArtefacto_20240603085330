@@ -1,0 +1,26 @@
+#!/bin/bash
+
+curl -H 'Content-Type: application/json' \
+    --header 'x-api-key: password' \
+     -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "http-pull-provider-dataplane",  "url": "https://sergio.arlabdevelopments.com:19192/control/transfer",  "allowedSourceTypes": [    "HttpData"  ],  "allowedDestTypes": [    "HttpProxy",    "HttpData"  ],  "properties": {    "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "https://sergio.arlabdevelopments.com:19291/public/"  }}' \
+     -X POST "https://sergio.arlabdevelopments.com:19193/management/v2/dataplanes" -s | jq
+
+curl -H 'Content-Type: application/json' \
+    --header 'x-api-key: password' \
+     -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "http-pull-consumer-dataplane",  "url": "https://sergio.arlabdevelopments.com:29192/control/transfer",  "allowedSourceTypes": [    "HttpData"  ],  "allowedDestTypes": [    "HttpProxy",    "HttpData"  ],  "properties": {    "https://w3id.org/edc/v0.0.1/ns/publicApiUrl": "https://sergio.arlabdevelopments.com:29291/public/"  }}' \
+     -X POST "https://sergio.arlabdevelopments.com:29193/management/v2/dataplanes" -s | jq
+
+curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "assetId",  "properties": {    "name": "product description",    "contenttype": "application/json"  },  "dataAddress": {    "type": "HttpData",    "name": "Test asset",    "baseUrl": "https://distro.ibiblio.org/damnsmall/archive/dsl-embedded-1.2.zip",    "proxyPath": "true"  }}' \
+  --header 'x-api-key: password' \
+  -H 'content-type: application/json' https://sergio.arlabdevelopments.com:19193/management/v3/assets \
+-s | jq
+ z
+curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/",    "odrl": "http://www.w3.org/ns/odrl/2/"  },  "@id": "aPolicy",  "policy": {    "@context": "http://www.w3.org/ns/odrl.jsonld",    "@type": "Set",    "permission": [],    "prohibition": [],    "obligation": []  }}' \
+  --header 'x-api-key: password' \
+  -H 'content-type: application/json' https://sergio.arlabdevelopments.com:19193/management/v2/policydefinitions \
+-s | jq
+
+curl -d '{  "@context": {    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"  },  "@id": "1",  "accessPolicyId": "aPolicy",  "contractPolicyId": "aPolicy",  "assetsSelector": []}' \
+  --header 'x-api-key: password' \
+  -H 'content-type: application/json' https://sergio.arlabdevelopments.com:19193/management/v2/contractdefinitions \
+-s | jq

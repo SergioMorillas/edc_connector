@@ -1,0 +1,60 @@
+[
+    {
+        "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://w3id.org/security/suites/jws-2020/v1",
+            "https://registry.lab.gaia-x.eu/development/api/trusted-shape-registry/v1/shapes/jsonld/trustframework#"
+        ],
+        "type": [
+            "VerifiableCredential"
+        ],
+        "id": "https://arlabdevelopments.com/.well-known/ArsysParticipant.json",
+        "issuer": "did:web:arlabdevelopments.com",
+        "issuanceDate": "2023-11-14T12:01:43.434Z",
+        "credentialSubject": {
+            "gx:legalName": "Arsys Internet, S.L.U.",
+            "gx:headquarterAddress": {
+                "gx:countrySubdivisionCode": "ES-RI"
+            },
+            "gx:legalRegistrationNumber": {
+                "id": "https://arlabdevelopments.com/.well-known/legalRegistrationNumberVC.json"
+            },
+            "gx:legalAddress": {
+                "gx:countrySubdivisionCode": "ES-RI"
+            },
+            "type": "gx:LegalParticipant",
+            "gx-terms-and-conditions:gaiaxTermsAndConditions": "70c1d713215f95191a11d38fe2341faed27d19e083917bc8732ca4fea4976700",
+            "id": "https://arlabdevelopments.com/.well-known/ArsysParticipant.json"
+        },
+        "proof": {
+            "type": "JsonWebSignature2020",
+            "created": "2024-05-31T08:37:11.661Z",
+            "proofPurpose": "assertionMethod",
+            "verificationMethod": "did:web:arlabdevelopments.com",
+            "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..eH5SFZ_kSp6JZzDET61qm71ph9ribxcuh98oXbqbV9QrdalcVLSAQGg0N9ucUD2Zztgexo_KIReM16JVanGaCV_dVREC1II8qD9dun4z2_0vGjFlJia_9JpOb_dtd9Bwc1bWz_9fIMQJnKLyKoACzxldwDs6F1b3dMFvUsl2WuVAKfqLU_g_78Yk-eMBjxWsjSFhHBfJmepl8d9SV87jlggM7pDh1GOND6VUJbz6fyRQRFZHVPWVytVEs1f0YgPhVSHlsSyBw4rGOXlmnSrn6k-rZAnzcfjyGDFL8m3mdrFtSBTHIalk_NNFTWmNZVhE6Z27fmIj8Bc9DjU7Grnvyw"
+        }
+    },
+    {
+        "@context": [
+            "https://www.w3.org/2018/credentials/v1",
+            "https://w3id.org/security/suites/jws-2020/v1",
+            "https://registry.lab.gaia-x.eu/development/api/trusted-shape-registry/v1/shapes/jsonld/trustframework#"
+        ],
+        "type": "VerifiableCredential",
+        "issuanceDate": "2023-11-14T12:01:43.434Z",
+        "credentialSubject": {
+            "gx:termsAndConditions": "The PARTICIPANT signing the Self-Description agrees as follows:\n- to update its descriptions about any changes, be it technical, organizational, or legal - especially but not limited to contractual in regards to the indicated attributes present in the descriptions.\n\nThe keypair used to sign Verifiable Credentials will be revoked where Gaia-X Association becomes aware of any inaccurate statements in regards to the claims which result in a non-compliance with the Trust Framework and policy rules defined in the Policy Rules and Labelling Document (PRLD).",
+            "type": "gx:GaiaXTermsAndConditions",
+            "id": "https://arlabdevelopments.com/.well-known/TermsAndConditions.json"
+        },
+        "issuer": "did:web:arlabdevelopments.com",
+        "id": "https://arlabdevelopments.com/.well-known/TermsAndConditions.json",
+        "proof": {
+            "type": "JsonWebSignature2020",
+            "created": "2024-05-31T08:37:55.442Z",
+            "proofPurpose": "assertionMethod",
+            "verificationMethod": "did:web:arlabdevelopments.com",
+            "jws": "eyJhbGciOiJQUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..UTuA9voMe43v-OrUQoEcp6jL8jv1NtYcJ4IZU7F8Q9mtVhqBGafojmDhlFIcs79WdMoIivrBCDa7zOqbsAIJb2KacQ-Ec2cQjwPyQErdQoL6GAM-kApN5BiR0TjAnD1fxR2CzT5WE3sprPXnM4P-IBP9bB2CXWsN0qrD23mZapGWDZnC1BkPurJZuFz4JnlOTzazedp3dchy5cuj8AVXNIxzD2U9K2Pa4e2M5-SGYheSFwjx2H8qZwGFPyxz2t-H0B4t_5OBaSHZLQxpUpIAfTnjW6YV-fneGngOTy7XmeDCmOcUVpfCjki4fUaXfFQSngixIeDsKer46AMmryfnhA"
+        }
+    }
+]

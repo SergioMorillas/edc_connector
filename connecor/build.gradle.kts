@@ -7,12 +7,12 @@ plugins { // Aquí añadimos los plugins
 repositories { // El repositorio del que vamos a sacar todas las librerias
     mavenCentral()
 }
-val edcGroup = "org.eclipse.edc"        // Seteamos el grupo de Eclipse que vamos a utilizar
-val edcVersion = "0.6.4"                // Seteamos la version de los paquetes de Eclipse que vamos a utilizar
-val postgresGroup = "org.postgresql"    // Seteamos el grupo de postgres que vamos a utilizar
-val postgresVersion = "42.6.0"          // Seteamos la version de los paquetes de postgres que vamos a utilizar
-val jakartaGroup ="jakarta.ws.rs"       // Seteamos el grupo de jakarta que vamos a utilizar
-val jakartaVersion ="3.1.0"             // Seteamos la version de los paquetes de jakarta que vamos a utilizar
+val edcGroup = "org.eclipse.edc"                                                    // Seteamos el grupo de Eclipse que vamos a utilizar
+val edcVersion = "0.6.4"                                                            // Seteamos la version de los paquetes de Eclipse que vamos a utilizar
+val postgresGroup = "org.postgresql"                                                // Seteamos el grupo de postgres que vamos a utilizar
+val postgresVersion = "42.6.0"                                                      // Seteamos la version de los paquetes de postgres que vamos a utilizar
+val jakartaGroup ="jakarta.ws.rs"                                                   // Seteamos el grupo de jakarta que vamos a utilizar
+val jakartaVersion ="3.1.0"                                                         // Seteamos la version de los paquetes de jakarta que vamos a utilizar
 
 dependencies {
     implementation("${edcGroup}:data-plane-selector-api:${edcVersion}")             // Todas las extensiones básicas ==> Extensiones para la transferencia de datos y el nucleo del conector
@@ -29,7 +29,6 @@ dependencies {
     implementation("${edcGroup}:dsp:${edcVersion}")                                 // Todas las extensiones básicas ==> Implementación del DataSpaceProtocol
     implementation("${edcGroup}:configuration-filesystem:${edcVersion}")            // Todas las extensiones básicas ==> Para mantener la configuración en local
     implementation("${edcGroup}:vault-hashicorp:${edcVersion}")                     // Todas las extensiones básicas ==> Para mantener la configuración en local
-    implementation("${edcGroup}:iam-mock:${edcVersion}")                            // Todas las extensiones básicas ==> Implementación del servicio de identificación
     implementation("${edcGroup}:http:${edcVersion}")                                // Todas las extensiones básicas ==> Control de comunicaciones HTTP
     implementation("${edcGroup}:transfer-data-plane:${edcVersion}")                 // Todas las extensiones básicas ==> Control de comunicaciones HTTP
     implementation("${edcGroup}:transfer-pull-http-receiver:${edcVersion}")         // Todas las extensiones básicas ==> Control de comunicaciones HTTP
@@ -43,10 +42,13 @@ dependencies {
     implementation("${edcGroup}:transaction-local:${edcVersion}")                   // Todas las extensiones de SQL -==> Transacciones locales
     implementation("${edcGroup}:transaction-datasource-spi:${edcVersion}")          // Todas las extensiones de SQL -==> Transacciones locales
     implementation("${edcGroup}:control-plane-sql:${edcVersion}")                   // Todas las extensiones de SQL -==> Transacciones locales
-    implementation("${postgresGroup}:postgresql:${postgresVersion}")                // Plugin estandar de postgres
+    implementation("org.postgresql:postgresql:42.6.0")                              // Plugin estandar de postgres
+
+
+    implementation("${edcGroup}:oauth2-core:${edcVersion}")                   // Todas las extensiones de SQL -==> Transacciones locales
 
     // Plugin propio
-    implementation("${jakartaGroup}:jakarta.ws.rs-api:${jakartaVersion}")           // Manejo del API de jakarta
+    implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")                         // Manejo del API de jakarta
 }
 
 application {
@@ -57,7 +59,7 @@ tasks.shadowJar {
     isZip64 = true
 }
 
-tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> { // Aquí creamos el jar autoejecutable que utilizaremos, como el shadow plugin de mvn
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {        // Aquí creamos el jar autoejecutable que utilizaremos, como el shadow plugin de mvn
     exclude("**/pom.properties", "**/pom.xm")
     mergeServiceFiles()
     archiveFileName.set("connector.jar")

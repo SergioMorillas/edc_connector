@@ -1,0 +1,127 @@
+ DEBUG 2024-05-30T06:50:53.781084072 ContractNegotiation: ID 2ce24b43-e8ff-4c25-b911-e1db8704c2a5. Attempt #5 failed to [Consumer] send request. Cause: org.eclipse.edc.http.spi.EdcHttpClientException: Hostname provider not verified:     certificate: sha256/2tQxnayKNcAqaT7DOE444wvPIvleuh2DdeROFq6yUk4=     DN: CN=sergio.arlabdevelopments.com     subjectAltNames: [sergio.arlabdevelopments.com]
+java.util.concurrent.CompletionException: org.eclipse.edc.http.spi.EdcHttpClientException: Hostname provider not verified:
+    certificate: sha256/2tQxnayKNcAqaT7DOE444wvPIvleuh2DdeROFq6yUk4=
+    DN: CN=sergio.arlabdevelopments.com
+    subjectAltNames: [sergio.arlabdevelopments.com]
+        at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:332)
+java.util.concurrent.CompletionException: org.eclipse.edc.http.spi.EdcHttpClientException: Hostname provider not verified:
+    certificate: sha256/2tQxnayKNcAqaT7DOE444wvPIvleuh2DdeROFq6yUk4=
+    DN: CN=sergio.arlabdevelopments.com
+    subjectAltNames: [sergio.arlabdevelopments.com]
+        at java.base/java.util.concurrent.CompletableFuture.encodeThrowable(CompletableFuture.java:332)
+        at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:347)
+        at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:636)
+        at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+        at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2162)
+        at java.base/java.util.concurrent.CompletableFuture.completeThrowable(CompletableFuture.java:347)
+        at java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:636)
+        at java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:510)
+        at dev.failsafe.spi.FailsafeFuture.completeResult(FailsafeFuture.java:101)
+        at dev.failsafe.AsyncExecutionImpl.complete(AsyncExecutionImpl.java:153)
+        at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+        at java.base/java.util.concurrent.CompletableFuture.uniWhenCompleteStage(CompletableFuture.java:887)
+        at java.base/java.util.concurrent.CompletableFuture.whenComplete(CompletableFuture.java:2325)
+        at dev.failsafe.AsyncExecutionImpl.executeAsync(AsyncExecutionImpl.java:143)
+        at dev.failsafe.AsyncExecutionImpl.record(AsyncExecutionImpl.java:100)
+        at dev.failsafe.AsyncExecutionImpl.recordException(AsyncExecutionImpl.java:111)
+        at dev.failsafe.okhttp.FailsafeCall$1.onFailure(FailsafeCall.java:150)
+        at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:525)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: org.eclipse.edc.http.spi.EdcHttpClientException: Hostname provider not verified:
+    certificate: sha256/2tQxnayKNcAqaT7DOE444wvPIvleuh2DdeROFq6yUk4=
+    DN: CN=sergio.arlabdevelopments.com
+    subjectAltNames: [sergio.arlabdevelopments.com]
+        at org.eclipse.edc.http.spi.FallbackFactories.lambda$retryWhenStatusNot2xxOr4xx$0(FallbackFactories.java:42)
+        at dev.failsafe.Fallback.lambda$builderOfException$0(Fallback.java:106)
+        at dev.failsafe.internal.FallbackImpl.applyStage(FallbackImpl.java:68)
+        at dev.failsafe.internal.FallbackExecutor.lambda$applyAsync$2(FallbackExecutor.java:94)
+        at dev.failsafe.internal.FallbackExecutor.lambda$applyAsync$5(FallbackExecutor.java:109)
+        at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+        at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+        at dev.failsafe.internal.FallbackExecutor.lambda$applyAsync$6(FallbackExecutor.java:80)
+        at dev.failsafe.internal.RetryPolicyExecutor.handleAsync(RetryPolicyExecutor.java:145)
+        at dev.failsafe.internal.RetryPolicyExecutor.lambda$applyAsync$1(RetryPolicyExecutor.java:125)
+        ... 8 more
+        at java.base/java.util.concurrent.CompletableFuture.completeExceptionally(CompletableFuture.java:2162)
+        at dev.failsafe.spi.FailsafeFuture.completeResult(FailsafeFuture.java:101)
+        at dev.failsafe.AsyncExecutionImpl.complete(AsyncExecutionImpl.java:153)
+        at java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:863)
+        at java.base/java.util.concurrent.CompletableFuture.uniWhenCompleteStage(CompletableFuture.java:887)
+        at java.base/java.util.concurrent.CompletableFuture.whenComplete(CompletableFuture.java:2325)
+        at dev.failsafe.AsyncExecutionImpl.executeAsync(AsyncExecutionImpl.java:143)
+        at dev.failsafe.AsyncExecutionImpl.record(AsyncExecutionImpl.java:100)
+        at dev.failsafe.AsyncExecutionImpl.recordException(AsyncExecutionImpl.java:111)
+        at dev.failsafe.okhttp.FailsafeCall$1.onFailure(FailsafeCall.java:150)
+        at okhttp3.internal.connection.RealCall$AsyncCall.run(RealCall.kt:525)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: org.eclipse.edc.http.spi.EdcHttpClientException: Hostname provider not verified:
+    certificate: sha256/2tQxnayKNcAqaT7DOE444wvPIvleuh2DdeROFq6yUk4=
+    DN: CN=sergio.arlabdevelopments.com
+    subjectAltNames: [sergio.arlabdevelopments.com]
+        at org.eclipse.edc.http.spi.FallbackFactories.lambda$retryWhenStatusNot2xxOr4xx$0(FallbackFactories.java:42)
+        at dev.failsafe.Fallback.lambda$builderOfException$0(Fallback.java:106)
+        at dev.failsafe.internal.FallbackImpl.applyStage(FallbackImpl.java:68)
+        at dev.failsafe.internal.FallbackExecutor.lambda$applyAsync$2(FallbackExecutor.java:94)
+        at dev.failsafe.internal.FallbackExecutor.lambda$applyAsync$5(FallbackExecutor.java:109)
+        at java.base/java.util.concurrent.CompletableFuture.uniComposeStage(CompletableFuture.java:1187)
+        at java.base/java.util.concurrent.CompletableFuture.thenCompose(CompletableFuture.java:2309)
+        at dev.failsafe.internal.FallbackExecutor.lambda$applyAsync$6(FallbackExecutor.java:80)
+        at dev.failsafe.internal.RetryPolicyExecutor.handleAsync(RetryPolicyExecutor.java:145)
+        at dev.failsafe.internal.RetryPolicyExecutor.lambda$applyAsync$1(RetryPolicyExecutor.java:125)
+        ... 8 more
+DEBUG 2024-05-30T06:50:53.786520804 [ConsumerContractNegotiationManagerImpl] ContractNegotiation 2ce24b43-e8ff-4c25-b911-e1db8704c2a5 is now in state REQUESTING
+DEBUG 2024-05-30T06:50:53.786520804 [ConsumerContractNegotiationManagerImpl] ContractNegotiation 2ce24b43-e8ff-4c25-b911-e1db8704c2a5 is now in state REQUESTING
+DEBUG 2024-05-30T06:50:54.298917032 Entity 2ce24b43-e8ff-4c25-b911-e1db8704c2a5 ContractNegotiation retry #5 will not be attempted bef
+
+======================================================================================================================================================================================================================================
+======================================================================================================================================================================================================================================
+======================================================================================================================================================================================================================================
+
+SEVERE 2024-05-30T08:45:21.991162752 StateMachineManager [ConsumerContractNegotiationManagerImpl] error caught
+java.lang.NullPointerException: Value in JsonObjects name/value pair cannot be null
+        at org.glassfish.json.JsonObjectBuilderImpl.validateValue(JsonObjectBuilderImpl.java:223)
+        at org.glassfish.json.JsonObjectBuilderImpl.add(JsonObjectBuilderImpl.java:88)
+        at org.eclipse.edc.protocol.dsp.negotiation.transform.from.JsonObjectFromContractNegotiationTerminationMessageTransformer.transform(JsonObjectFromContractNegotiationTerminationMessageTransformer.java:52)
+        at org.eclipse.edc.protocol.dsp.negotiation.transform.from.JsonObjectFromContractNegotiationTerminationMessageTransformer.transform(JsonObjectFromContractNegotiationTerminationMessageTransformer.java:37)
+        at org.eclipse.edc.transform.TransformerContextImpl.transform(TransformerContextImpl.java:65)
+        at org.eclipse.edc.transform.TypeTransformerRegistryImpl.transform(TypeTransformerRegistryImpl.java:61)
+        at org.eclipse.edc.protocol.dsp.http.serialization.JsonLdRemoteMessageSerializerImpl.serialize(JsonLdRemoteMessageSerializerImpl.java:58)
+        at org.eclipse.edc.protocol.dsp.http.dispatcher.PostDspHttpRequestFactory.createRequest(PostDspHttpRequestFactory.java:44)
+        at org.eclipse.edc.protocol.dsp.http.dispatcher.DspHttpRemoteMessageDispatcherImpl.dispatch(DspHttpRemoteMessageDispatcherImpl.java:92)
+        at org.eclipse.edc.connector.core.message.RemoteMessageDispatcherRegistryImpl.dispatch(RemoteMessageDispatcherRegistryImpl.java:48)
+        at org.eclipse.edc.connector.controlplane.contract.negotiation.AbstractContractNegotiationManager.lambda$dispatch$7(AbstractContractNegotiationManager.java:112)
+        at org.eclipse.edc.statemachine.retry.CompletableFutureRetryProcess.process(CompletableFutureRetryProcess.java:50)
+        at org.eclipse.edc.statemachine.retry.RetryProcess.execute(RetryProcess.java:71)
+        at org.eclipse.edc.connector.controlplane.contract.negotiation.AbstractContractNegotiationManager.processTerminating(AbstractContractNegotiationManager.java:88)
+        at org.eclipse.edc.spi.telemetry.Telemetry.lambda$contextPropagationMiddleware$0(Telemetry.java:73)
+        at org.eclipse.edc.statemachine.ProcessorImpl.lambda$process$1(ProcessorImpl.java:55)
+        at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+        at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+        at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+        at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+        at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+        at java.base/java.util.stream.ReduceOps$5.evaluateSequential(ReduceOps.java:258)
+        at java.base/java.util.stream.ReduceOps$5.evaluateSequential(ReduceOps.java:248)
+        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+        at java.base/java.util.stream.ReferencePipeline.count(ReferencePipeline.java:709)
+        at org.eclipse.edc.statemachine.ProcessorImpl.process(ProcessorImpl.java:62)
+        at java.base/java.util.stream.ReferencePipeline$5$1.accept(ReferencePipeline.java:231)
+        at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+        at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+        at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+        at java.base/java.util.stream.ReduceOps$ReduceOp.evaluateSequential(ReduceOps.java:921)
+        at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+        at java.base/java.util.stream.LongPipeline.reduce(LongPipeline.java:498)
+        at java.base/java.util.stream.LongPipeline.sum(LongPipeline.java:456)
+        at org.eclipse.edc.statemachine.StateMachineManager.performLogic(StateMachineManager.java:110)
+        at org.eclipse.edc.statemachine.StateMachineManager.lambda$loop$2(StateMachineManager.java:101)
+        at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539)
+        at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+        at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:304)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+        at java.base/java.lang.Thread.run(Thread.java:833)
