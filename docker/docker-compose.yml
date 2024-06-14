@@ -1,6 +1,6 @@
 version: "2.3"
 services:
-  # Conector
+  # Conectores
   company1:
     container_name: provider # Nombre del contenedor
     build:
