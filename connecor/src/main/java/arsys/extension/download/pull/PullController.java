@@ -79,6 +79,7 @@ public class PullController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally{
+            monitor.info("Transferencia terminada, ha tardado: " + (System.currentTimeMillis() - empiezaTransferencia ) + " ms");
             if (con!=null) con.disconnect(); // Cerramos la conexión
         }
         // Si ha llegado hasta aquí y no ha saltado excepción devuelvo que ha sido
