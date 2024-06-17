@@ -1,6 +1,7 @@
 #!/bin/bash
 finalizado=false
-# Scripts/vault docker/configuracion/certificados/rsa_private.key docker/configuracion/certificados/cert.pem
+set -e 
+set -o pipefail
 
 Scripts/crearArtefacto
 

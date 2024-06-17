@@ -46,8 +46,6 @@ services:
       POSTGRES_PASSWORD: edcpassword # Contraseña para conectarse
     volumes:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
-    depends_on:
-      - company1
 
   postgres2:
     container_name: postgres2 # Nombre del contenedor de postgres
@@ -61,7 +59,7 @@ services:
       - ./configuracion/db:/docker-entrypoint-initdb.d/ # Ruta hasta la carpeta que contiene el script «init.sql»
     depends_on:
       - company2
-
+  
   # Vault para almacenar los certificados
   hashicorp-vault:
     container_name: vault-server 
@@ -77,14 +75,14 @@ services:
       - ./configuracion:/configuracion
     entrypoint: vault server -config=/configuracion/vault/vault.hcl 
 
-  keycloack:
-    container_name: OAuth_server
-    image: quay.io/keycloak/keycloak:24.0.5
-    environment:
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-    volumes:
-      - ./configuracion:/configuracion
-    command: start --verbose --https-port=8443 --hostname="sergio.arlabdevelopments.com" --https-certificate-file=/configuracion/certificados/fullchain.pem --https-certificate-key-file=/configuracion/certificados/privkey1.pem
-    ports:
-      - "8443:8443"
+  # keycloack:
+  #   container_name: OAuth_server
+  #   image: quay.io/keycloak/keycloak:24.0.5
+  #   environment:
+  #     - KEYCLOAK_ADMIN=admin
+  #     - KEYCLOAK_ADMIN_PASSWORD=admin
+  #   volumes:
+  #     - ./configuracion:/configuracion
+  #   command: start --verbose --https-port=8443 --hostname="sergio.arlabdevelopments.com" --https-certificate-file=/configuracion/certificados/fullchain.pem --https-certificate-key-file=/configuracion/certificados/privkey1.pem
+  #   ports:
+  #     - "8443:8443"
