@@ -1,4 +1,4 @@
-version: "2.3"
+version: "2.4"
 services:
   # Conectores
   company1:
@@ -17,6 +17,8 @@ services:
       - "19192:19192"
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
+    secrets:
+      - unseal_keys
 
   company2:
     container_name: consumer # Nombre del contenedor
@@ -34,6 +36,8 @@ services:
       - "29192:29192"
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
+    secrets:
+      - unseal_keys
 
   # Base de datos
   postgres1:
@@ -73,7 +77,14 @@ services:
       - "8200:8200" # Puerto tanto de la interfaz gráfica como del API
     volumes:
       - ./configuracion:/configuracion
-    entrypoint: vault server -config=/configuracion/vault/vault.hcl 
+    entrypoint: sh /configuracion/vault/unseal.sh
+
+
+
+
+secrets:
+  unseal_keys:
+    file: ./configuracion/vault/keys
 
   # keycloack:
   #   container_name: OAuth_server
