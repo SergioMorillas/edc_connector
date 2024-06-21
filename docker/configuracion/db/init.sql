@@ -31,6 +31,15 @@ COMMENT ON COLUMN edc_asset.private_properties IS 'Asset private properties seri
 COMMENT ON COLUMN edc_asset.data_address IS 'Asset DataAddress serialized as JSON';
 
 
+CREATE TABLE IF NOT EXISTS edc_edr_entry
+(
+   transfer_process_id           VARCHAR NOT NULL PRIMARY KEY,
+   agreement_id                  VARCHAR NOT NULL,
+   asset_id                      VARCHAR NOT NULL,
+   provider_id                   VARCHAR NOT NULL,
+   contract_negotiation_id       VARCHAR,
+   created_at                    BIGINT  NOT NULL
+);
 
 --
 --  Copyright (c) 2022 Daimler TSS GmbH

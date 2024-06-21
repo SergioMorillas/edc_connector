@@ -1,2 +1,5 @@
 arsys.extension.download.push.PushExtension
 arsys.extension.download.pull.PullExtension
+
+# Hashicorp
+org.eclipse.edc.vault.hashicorp.HashicorpVaultExtension

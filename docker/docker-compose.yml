@@ -5,6 +5,8 @@ services:
     container_name: provider # Nombre del contenedor
     build:
       context: ../connecor # Donde se encuentra la raíz
+      # args:
+        # JVM_ARGS:  -Djava.net.preferIPv4Stack=true -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=0.0.0.0:1044
     environment: 
       EDC_FS_CONFIG: /configuracion/conf/configuration.properties # Ruta hasta las propiedades de configuración
       EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://sergio.arlabdevelopments.com:19192/control/token
@@ -15,6 +17,8 @@ services:
       - "19194:19194"
       - "19291:19291"
       - "19192:19192"
+      - "1044:1044"
+
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
     secrets:
@@ -24,9 +28,11 @@ services:
     container_name: consumer # Nombre del contenedor
     build: 
       context: ../connecor # Donde se encuentra la raíz
+      # args:
+        # JVM_ARGS:  -Djava.net.preferIPv4Stack=true -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=0.0.0.0:1045
     environment: 
       EDC_FS_CONFIG: /configuracion/conf2/configuration.properties # Ruta hasta las propiedades de configuración
-      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://sergio.arlabdevelopments.com:19192/control/token
+      EDC_DATAPLANE_TOKEN_VALIDATION_ENDPOINT: https://sergio.arlabdevelopments.com:29192/control/token
     # Puertos, la "explicación" de cada uno se encuentra en sus propiedades especificas
     ports:
       - "29191:29191"
@@ -34,6 +40,7 @@ services:
       - "29194:29194"
       - "29291:29291"
       - "29192:29192"
+      - "1045:1045"
     volumes:
       - ./configuracion:/configuracion # Volumen añadido al contenedor de docker, para tener acceso a toda la configuración
     secrets:
@@ -69,15 +76,12 @@ services:
     container_name: vault-server 
     image: vault:1.13.3 # Imagen del vaul que vamos a utilizar
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
-      VAULT_ROOT_TOKEN_ID: token # Token raíz para conectarnos al vaul
       VIRTUAL_HOST: vault-server.com
-      VAULT_SKIP_VERIFY: true
     ports:
       - "8200:8200" # Puerto tanto de la interfaz gráfica como del API
     volumes:
       - ./configuracion:/configuracion
-    entrypoint: sh /configuracion/vault/unseal.sh
+    entrypoint: /configuracion/vault/unseal.sh
 
 
 
@@ -85,15 +89,3 @@ services:
 secrets:
   unseal_keys:
     file: ./configuracion/vault/keys
-
-  # keycloack:
-  #   container_name: OAuth_server
-  #   image: quay.io/keycloak/keycloak:24.0.5
-  #   environment:
-  #     - KEYCLOAK_ADMIN=admin
-  #     - KEYCLOAK_ADMIN_PASSWORD=admin
-  #   volumes:
-  #     - ./configuracion:/configuracion
-  #   command: start --verbose --https-port=8443 --hostname="sergio.arlabdevelopments.com" --https-certificate-file=/configuracion/certificados/fullchain.pem --https-certificate-key-file=/configuracion/certificados/privkey1.pem
-  #   ports:
-  #     - "8443:8443"

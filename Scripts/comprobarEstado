@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ $2 = "estado" ]; then
   curl -X GET "https://sergio.arlabdevelopments.com:29193/management/v2/contractnegotiations/$1" \

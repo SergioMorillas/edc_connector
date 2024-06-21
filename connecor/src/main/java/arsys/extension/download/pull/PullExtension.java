@@ -13,6 +13,5 @@ public class PullExtension implements ServiceExtension {
     @Override
     public void initialize(ServiceExtensionContext context) {
         webService.registerResource(new PullController(context.getMonitor()));
-
     }
 }

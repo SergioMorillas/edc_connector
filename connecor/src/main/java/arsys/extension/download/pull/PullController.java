@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -34,10 +35,11 @@ public class PullController {
     @POST // Para obtener peticiones POST, tambien pueden ser GET, PUT, PATCH...
     @Path("pull")
     public String endppoint(String body) {// Creamos un endpoint que recibe un JSON como cadena de texto
+        String response = "correct";
         ObjectMapper mapper;
         JsonNode jsonNode;
         HttpsURLConnection con = null;
-        long empiezaTransferencia=0, finalizaTransferencia=0;
+        long empiezaTransferencia = 0;
         monitor.info("Hemos entrado en el metodo Pull");
         try {
             empiezaTransferencia = System.currentTimeMillis();
@@ -49,41 +51,50 @@ public class PullController {
             monitor.info("Apuntamos al endpoint: " + endpoint);
             String authCode = jsonNode.get("authCode").toString().replaceAll("\"", "");
             String id = jsonNode.get("id").toString().replaceAll("\"", "");
-            
+
             monitor.info("El valor del auth code es: " + authCode);
             // Accedemos al endpoint que nos ha proporcionado el proveedor en el JSON con el
             // authcode como cabecera de la petición, aceptando input
             URL url = new URL(endpoint);
-        
-            con= (HttpsURLConnection) url.openConnection(); //Abrimos la conexion en un objeto
+
+            con = (HttpsURLConnection) url.openConnection(); // Abrimos la conexion en un objeto
 
             con.setDoInput(true); // Activamos la opción del input
             con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Length", authCode.getBytes().length+""); // Funciona sin este header, pero hace que funcione mas rápido
+            con.setRequestProperty("Content-Length", authCode.getBytes().length + ""); // Funciona sin este header, pero
+                                                                                       // hace que funcione un poco mas rápido
             con.setRequestProperty("Authorization", authCode);
             con.setRequestProperty("x-api-key", "password");
-            
+
             // Aquí utilizo un DataInputStream para poder leer datos binarios
             try (DataInputStream rd = new DataInputStream(con.getInputStream());
                     OutputStream fos = new FileOutputStream("./" + id)) {
                 fos.write(rd.readAllBytes()); // Leemos la fuente de datos externa y la escribimos en el fichero interno
                 fos.flush();
-                finalizaTransferencia = System.currentTimeMillis();
             } catch (Exception ignored) {
                 monitor.severe("Excepción leyendo o escribiendo los datos", ignored);
             }
         } catch (JsonProcessingException e) {
-            monitor.severe("El body no era un JSON con el formato correcto");
+            monitor.severe("El body no era un JSON con el formato correcto" + Arrays.toString(e.getStackTrace()));
+            response = "processing error";
         } catch (MalformedURLException e) {
+            response = "No se ha podido leer la conexion";
             throw new RuntimeException(e);
         } catch (IOException e) {
+            response = "No se ha podido escribir en el disco";
             throw new RuntimeException(e);
-        } finally{
-            monitor.info("Transferencia terminada, ha tardado: " + (System.currentTimeMillis() - empiezaTransferencia ) + " ms");
-            if (con!=null) con.disconnect(); // Cerramos la conexión
+        } finally {
+            monitor.info("Transferencia terminada, ha tardado: " + (System.currentTimeMillis() - empiezaTransferencia)
+                    + " ms");
+            if (con != null)
+                con.disconnect(); // Cerramos la conexión
         }
         // Si ha llegado hasta aquí y no ha saltado excepción devuelvo que ha sido
         // correcto
-        return "{\"Tiempo de transferencia\":\" "+(finalizaTransferencia - empiezaTransferencia )+" \" ms\"\"}";
+        return """
+                {
+                    "response":""" + response + """
+                }
+                    """;
     }
 }

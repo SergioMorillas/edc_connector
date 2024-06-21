@@ -22,4 +22,4 @@ echo "El contract agreement id: $contratoExitoso"
 
 # Aquí puedo poner el pull o el push, según necesite
 # Scripts/transferenciaPush $contratoExitoso
-# Scripts/transferenciaPull $contratoExitoso
+Scripts/transferenciaPull $contratoExitoso

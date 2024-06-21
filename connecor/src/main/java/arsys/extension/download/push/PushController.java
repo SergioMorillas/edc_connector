@@ -16,8 +16,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-@Consumes({ MediaType.WILDCARD }) // La clase solo puede recibir peticiones de tipo application/json
-@Produces({ MediaType.WILDCARD }) // La clase solo puede devolver peticiones de tipo application/json
+@Consumes({ MediaType.APPLICATION_JSON }) // La clase solo puede recibir peticiones de tipo application/json
+@Produces({ MediaType.APPLICATION_JSON }) // La clase solo puede devolver peticiones de tipo application/json
 @Path("/")
 public class PushController {
 
@@ -27,9 +27,9 @@ public class PushController {
         this.monitor = monitor;
     }
 
-    @POST
+    @POST 
     @Path("push")
-    public String endppoint(InputStream body) { // Creamos un endpoint que recibe un JSON como cadena de texto
+    public String endpoint(InputStream body) { // Creamos un endpoint que recibe un JSON como cadena de texto
         String response = "correct";   
         long empiezaTransferencia = System.currentTimeMillis();
 
@@ -43,19 +43,18 @@ public class PushController {
             monitor.severe("El body no era un JSON con el formato correcto" + Arrays.toString(e.getStackTrace()));
             response = "processing error";
         } catch (FileNotFoundException e) {
-            response = "it has not been possible to read the connection";
+            response = "No se ha podido leer la conexion";
             throw new RuntimeException(e);
         } catch (IOException e) {
-            response = "it has not been possible to write in disk";
+            response = "No se ha podido escribir en el disco";
             throw new RuntimeException(e);
         } finally {
             response = "{\"Tiempo de transferencia\":\" "+(System.currentTimeMillis() - empiezaTransferencia )+" \" ms\"\"}";
         }
 
         return """
-                {
-                    "response":""" + response + """
-                }
-                    """;
+        {
+            "response":""" + response + """
+        }""";
     }
 }
